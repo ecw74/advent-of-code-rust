@@ -36,7 +36,7 @@ Create Cargo std project `cargo generate esp-rs/esp-idf-template cargo`
 Create `cfg.toml`
 
 ```toml
-[advent-of-code-rust]
+[advent-of-code-esp]
 wifi_ssid = "<ssid>"
 wifi_psk = "<password>"
 ```
