@@ -3,15 +3,31 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="CargoProjects">
+    <cargoProject FILE="$PROJECT_DIR$/advent-of-code-app/Cargo.toml" />
+    <cargoProject FILE="$PROJECT_DIR$/advent-of-code-esp/Cargo.toml" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4668593-1a1b-4613-895d-00bdeed4e501" name="Changes" comment="Initial Commit." />
+    <list default="true" id="f4668593-1a1b-4613-895d-00bdeed4e501" name="Changes" comment="Add initial AoC version">
+      <change beforePath="$PROJECT_DIR$/advent-of-code-esp/common/site/templates/day.html" beforeDir="false" afterPath="$PROJECT_DIR$/advent-of-code-esp/common/site/templates/day.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Rust File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitRewordedCommitMessages">
+    <option name="onto" value="b210427a738fa5d2325d44b9037e1b1513544df6" />
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="7d4uwedc" />
@@ -28,16 +44,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "nodejs_package_manager_path": "npm",
-    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Cargo.Run.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/browse/RustroverProjects/advent-of-code-rust/advent-of-code-solutions/src/advent_of_code/aoc2023&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;language.rust.cargo.check&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Space Code Reviews" show_stripe_button="false" />
@@ -62,6 +85,38 @@
       <window_info anchor="right" id="Database" order="1" weight="0.25" />
     </layout>
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/advent-of-code-solutions/src/advent_of_code/aoc2023" />
+      <recent name="$PROJECT_DIR$/advent-of-code-solutions/src/advent_of_code" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/advent-of-code-solutions/src" />
+      <recent name="$PROJECT_DIR$/advent-of-code-solutions/src/advent_of_code" />
+    </key>
+  </component>
+  <component name="RsExternalLinterProjectSettings">
+    <option name="runOnTheFly" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command" nameIsGenerated="true">
+      <option name="command" value="run -- -y 2022 -d 1 -i input.txt" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$/advent-of-code-app" />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
   </component>
@@ -75,6 +130,8 @@
       <updated>1703799425218</updated>
       <workItem from="1703799426822" duration="233000" />
       <workItem from="1703799669523" duration="231000" />
+      <workItem from="1704200512736" duration="3840000" />
+      <workItem from="1704204982293" duration="9635000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit.">
       <option name="closed" value="true" />
@@ -84,7 +141,79 @@
       <option name="project" value="LOCAL" />
       <updated>1703799829935</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add build date and commit hash.">
+      <option name="closed" value="true" />
+      <created>1704205869210</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1704205869210</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Update cargo packages.">
+      <option name="closed" value="true" />
+      <created>1704205916504</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1704205916504</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fix">
+      <option name="closed" value="true" />
+      <created>1704206003962</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1704206003962</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add initial AoC version">
+      <option name="closed" value="true" />
+      <created>1704208147139</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1704208147139</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Add initial AoC version">
+      <option name="closed" value="true" />
+      <created>1704208163102</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1704208163102</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Test redirect.">
+      <option name="closed" value="true" />
+      <created>1704208919270</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1704208919270</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Test redirect.">
+      <option name="closed" value="true" />
+      <created>1704208954932</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1704208954932</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Test redirect.">
+      <option name="closed" value="true" />
+      <created>1704213861282</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1704213861282</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Add initial AoC version">
+      <option name="closed" value="true" />
+      <created>1704214597657</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1704214597657</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -102,8 +231,14 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update .gitea/workflows/build.yml" />
     <MESSAGE value="Initial Commit." />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit." />
+    <MESSAGE value="Add build date and commit hash." />
+    <MESSAGE value="Update cargo packages." />
+    <MESSAGE value="Fix" />
+    <MESSAGE value="Test redirect." />
+    <MESSAGE value="Add initial AoC version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add initial AoC version" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

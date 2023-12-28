@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block main %}
+<article>
+    <p>From here, you can access all of the events (and the corresponding solutions implemented Rust):</p>
+    {% for year in years %}
+    <div class="eventlist-event"><a href="/{{ year }}">[{{ year }}]</a></div>
+    {% endfor %}
+</article>
+{% endblock %}

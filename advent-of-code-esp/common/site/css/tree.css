@@ -1,0 +1,19 @@
+.tree {
+    font-family: monospace;
+    color: green;
+    white-space: pre;
+    font-size: 8pt;
+}
+.tree .red { color: red; }
+.tree .yellow {
+    color: yellow;
+    text-shadow: 0 0 2px yellow, 0 0 5px yellow;
+}
+.tree .blue { color: blue; }
+.tree .gold {
+    color: gold;
+    text-shadow: 0 0 2px gold, 0 0 5px gold;
+}
+.tree .brown {
+    color: brown;
+}

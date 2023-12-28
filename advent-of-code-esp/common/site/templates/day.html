@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}{{ current_year }} - Day {{ day }} - {{ sol.desc() }}{% endblock %}
+
+{% block main %}
+
+{% if complete==1 -%}
+<article class="day-desc calendar-complete">
+{% else if complete==2 -%}
+<article class="day-desc calendar-verycomplete">
+{% else %}
+<article class="day-desc">
+{%- endif %}
+    <h2>--- Day {{ day }}: {{ sol.desc() }} ---</h2>
+    Link to Original AoC Puzzle : <a href="https://adventofcode.com/{{ current_year }}/day/{{ day }}"
+                                     target="_blank">{{ sol.desc() }}</a>
+    <h3>--- Part One ---</h3>
+    <form action="{{ day }}" enctype="multipart/form-data" id="puzzle-upload-form-1" method="post">
+        <input name="level" type="hidden" value="1"/>
+        <p>Puzzle: <input hidden id="puzzle-upload-1" name="puzzle-upload-1" type="file"><label for="puzzle-upload-1">[Choose File]</label><span id="puzzle-chosen-1"> - No file chosen</span></p>
+        <p>Answer: <input autocomplete="off" maxlength="128" name="puzzle-answer-1" type="text"/><input type="submit" value="[Submit]"/></p>
+    </form>
+    {%- if complete==1 -%}
+    &#9989; Success, Runtime {{ runtime }}, Minimum Free Heap Size [{{ free_heap_size_before }}, {{ free_heap_size_after }}]
+    {%- else if complete==-1 -%}
+    &#10060; Fail, Runtime {{ runtime }}, Minimum Free Heap Size [{{ free_heap_size_before }}, {{ free_heap_size_after }}]
+    {%- endif %}
+    <h3>--- Part Two ---</h3>
+    <form action="{{ day }}" enctype="multipart/form-data" id="puzzle-upload-form-2" method="post">
+        <input name="level" type="hidden" value="2"/>
+        <p>Puzzle: <input hidden id="puzzle-upload-2" name="puzzle-upload-2" type="file"><label for="puzzle-upload-2">[Choose File]</label><span id="puzzle-chosen-2"> - No file chosen</span></p>
+        <p>Answer: <input autocomplete="off" maxlength="128" name="puzzle-answer-2" type="text"/><input type="submit" value="[Submit]"/></p>
+    </form>
+    {%- if complete==2 -%}
+    &#9989; Success, Runtime {{ runtime }}, Minimum Free Heap Size [{{ free_heap_size_before }}, {{ free_heap_size_after }}]
+    {%- else if complete==-2 -%}
+    &#10060; Fail, Runtime {{ runtime }}, Minimum Free Heap Size [{{ free_heap_size_before }}, {{ free_heap_size_after }}]
+    {%- endif %}
+    <script>
+        const puzzleUpload1 = document.getElementById('puzzle-upload-1');
+        const puzzleChosen1 = document.getElementById('puzzle-chosen-1');
+
+        puzzleUpload1.addEventListener('change', function () {
+            puzzleChosen1.textContent = " - " + this.files[0].name
+        });
+
+        document.getElementById('puzzle-upload-form-1').addEventListener('submit', function (event) {
+            var file = document.getElementById('puzzle-upload-1').files[0];
+            var maxSize = 1024 * 1024;
+
+            if (file && file.size > maxSize) {
+                alert('The file is too large. Please select a file smaller than 1MB.');
+                event.preventDefault();
+            }
+        });
+
+        const puzzleUpload2 = document.getElementById('puzzle-upload-2');
+        const puzzleChosen2 = document.getElementById('puzzle-chosen-2');
+
+        puzzleUpload2.addEventListener('change', function () {
+            puzzleChosen2.textContent = " - " + this.files[0].name
+        });
+
+        document.getElementById('puzzle-upload-form-2').addEventListener('submit', function (event) {
+            var file = document.getElementById('puzzle-upload-2').files[0];
+            var maxSize = 1024 * 1024;
+
+            if (file && file.size > maxSize) {
+                alert('The file is too large. Please select a file smaller than 1MB.');
+                event.preventDefault();
+            }
+        });
+    </script>
+</article>
+<h3>--- Code ---</h3>
+<pre><code class="language-rust">{{ sol.code() }}</code></pre>
+{% endblock %}

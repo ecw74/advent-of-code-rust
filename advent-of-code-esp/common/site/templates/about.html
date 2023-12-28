@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block main %}
+<article>
+
+    Hi! I'm ¯_(ツ)_/¯ Razupaltuff and I'm a big Fan of <a href="https://adventofcode.com">Advent of Code</a>
+    and I started a small project solving AoC Puzzles on an <a href="https://www.espressif.com/en/products/socs/esp32-s3">ESP32-S3</a>.
+
+    <h2>--- About Razupaltuff's <a href="https://adventofcode.com">Advent of Code</a> Project ---</h2>
+
+    Welcome to an exciting journey through the <a href="https://adventofcode.com">Advent of Code</a> puzzles, uniquely implemented by Razupaltuff! In this
+    project, we delve into the world of coding challenges, but with a twist – the solutions are crafted in Rust and run
+    on an IoT platform, the <a href="https://www.espressif.com/en/products/socs/esp32-s3">ESP32-S3</a>.
+
+    <h2>--- What Makes This Project Unique? ---</h2>
+
+    My setup is unconventional – instead of running on a typical PC, I've chosen the
+    <a href="https://www.espressif.com/en/products/socs/esp32-s3">ESP32-S3</a>, a versatile
+    microcontroller, as my target platform. This adds an extra layer of challenge and creativity to the project.
+    The <a href="https://www.espressif.com/en/products/socs/esp32-s3">ESP32-S3</a>
+    is not just the backbone of our computational tasks but also hosts a web server, making our project accessible and
+    interactive.
+
+    <h2>--- Interactive Puzzle Tester Pages ---</h2>
+
+    For each <a href="https://adventofcode.com">Advent of Code</a> puzzle, a dedicated web page is served, similar to the AoC puzzle pages.
+    Here, enthusiasts can test their puzzle inputs and solutions in real-time.
+    It's a hands-on way to engage with the puzzles and see immediate results. These pages are
+    more than just testing grounds; they are learning and exploration hubs for coding enthusiasts at any skill level.
+    <br>
+    <h2>--- See the Code ---</h2>
+
+    Transparency and learning are core to my philosophy. On each puzzle tester page, I display the Rust code used to
+    solve the corresponding puzzle. This provides a great opportunity for learners and experienced coders alike to
+    understand the intricacies of solving complex problems in Rust, and to see how code can be optimized for a
+    microcontroller environment.
+    <br>
+    <h2>--- See the Hardware ---</h2>
+
+    The <a href="https://www.espressif.com/en/products/socs/esp32-s3">ESP32-S3</a> is a dual-core XTensa LX7 microcontroller,
+    operating up to 240 MHz, and features Wi-Fi and Bluetooth 5 connectivity. It offers 512 KB of internal SRAM,
+    45 programmable GPIOs, and is built using 40 nm technology for efficient power usage and compact design.
+    This chip is ideal for various IoT applications due to its robust and integrated platform.
+
+    <br><br>
+    <center><img alt="Espressif ESP32-S3" src="/hardware.jpg"/></center>
+
+    <h2>--- Join the Adventure ---</h2>
+
+    Whether you're a seasoned coder, a Rust enthusiast, or just someone curious about coding puzzles, the project offers
+    a unique platform to test, learn, and grow. I invite you to explore the puzzles, try your hand at solving them, and
+    even peek into the world of microcontroller programming.
+
+    Dive into the world of coding challenges with a twist, and experience the <a href="https://adventofcode.com">Advent of Code</a>!
+    <br><br>
+    <pre><code class="language-rust">fn main() {
+    let input = vec![
+        "Uryyb, Nqirag bs Pbqr Ragnuvfg!",
+        "Ernql gb hajenc gur chmmryf?",
+        "Rnpu qnl oevatf n arj punyyratr, yvxr n qvtvgny nqirag pnyynaqre.",
+        "Teno lbhe pbqvat ung naq yrg gur srfgvir pbqvat sha ortva!",
+        "Znl lbhe pbqr or zreel naq oht-serr.",
+        "Unccy pbqvat!",
+        "¯_(ツ)_/¯",
+    ];
+
+    for line in input {
+        println!("{}", decode(line));
+    }
+}
+
+fn decode(input: &str) -> String { todo!() }</code></pre>
+
+</article>
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}{{ current_year }}{% endblock %}
+
+{% block main %}
+<style>
+    .calendar a .calendar-ornament0 {
+        color: inherit;
+    }
+
+    .calendar a .calendar-ornament1 {
+        color: inherit;
+    }
+
+    .calendar a .calendar-ornament2 {
+        color: inherit;
+    }
+
+    .calendar a .calendar-ornament3 {
+        color: inherit;
+    }
+
+    .calendar.calendar-beckon .calendar-day1 {
+        animation: anim-beckon 3s infinite -2.875s;
+    }
+
+    .calendar.calendar-beckon .calendar-day2 {
+        animation: anim-beckon 3s infinite -2.750s;
+    }
+
+    .calendar.calendar-beckon .calendar-day3 {
+        animation: anim-beckon 3s infinite -2.625s;
+    }
+
+    .calendar.calendar-beckon .calendar-day4 {
+        animation: anim-beckon 3s infinite -2.500s;
+    }
+
+    .calendar.calendar-beckon .calendar-day5 {
+        animation: anim-beckon 3s infinite -2.375s;
+    }
+
+    .calendar.calendar-beckon .calendar-day6 {
+        animation: anim-beckon 3s infinite -2.250s;
+    }
+
+    .calendar.calendar-beckon .calendar-day7 {
+        animation: anim-beckon 3s infinite -2.125s;
+    }
+
+    .calendar.calendar-beckon .calendar-day8 {
+        animation: anim-beckon 3s infinite -2.000s;
+    }
+
+    .calendar.calendar-beckon .calendar-day9 {
+        animation: anim-beckon 3s infinite -1.875s;
+    }
+
+    .calendar.calendar-beckon .calendar-day10 {
+        animation: anim-beckon 3s infinite -1.750s;
+    }
+
+    .calendar.calendar-beckon .calendar-day11 {
+        animation: anim-beckon 3s infinite -1.625s;
+    }
+
+    .calendar.calendar-beckon .calendar-day12 {
+        animation: anim-beckon 3s infinite -1.500s;
+    }
+
+    .calendar.calendar-beckon .calendar-day13 {
+        animation: anim-beckon 3s infinite -1.375s;
+    }
+
+    .calendar.calendar-beckon .calendar-day14 {
+        animation: anim-beckon 3s infinite -1.250s;
+    }
+
+    .calendar.calendar-beckon .calendar-day15 {
+        animation: anim-beckon 3s infinite -1.125s;
+    }
+
+    .calendar.calendar-beckon .calendar-day16 {
+        animation: anim-beckon 3s infinite -1.000s;
+    }
+
+    .calendar.calendar-beckon .calendar-day17 {
+        animation: anim-beckon 3s infinite -0.875s;
+    }
+
+    .calendar.calendar-beckon .calendar-day18 {
+        animation: anim-beckon 3s infinite -0.750s;
+    }
+
+    .calendar.calendar-beckon .calendar-day19 {
+        animation: anim-beckon 3s infinite -0.625s;
+    }
+
+    .calendar.calendar-beckon .calendar-day20 {
+        animation: anim-beckon 3s infinite -0.500s;
+    }
+
+    .calendar.calendar-beckon .calendar-day21 {
+        animation: anim-beckon 3s infinite -0.375s;
+    }
+
+    .calendar.calendar-beckon .calendar-day22 {
+        animation: anim-beckon 3s infinite -0.250s;
+    }
+
+    .calendar.calendar-beckon .calendar-day23 {
+        animation: anim-beckon 3s infinite -0.125s;
+    }
+
+    .calendar.calendar-beckon .calendar-day24 {
+        animation: anim-beckon 3s infinite -0.000s;
+    }
+
+    .calendar.calendar-beckon > span {
+        animation-name: anim-beckon-dark ! important;
+    }
+
+    @keyframes anim-beckon {
+        0% {
+            color: #666666;
+        }
+        80% {
+            color: #666666;
+        }
+        90% {
+            color: #00ff00;
+        }
+        100% {
+            color: #666666;
+        }
+    }
+
+    @keyframes anim-beckon-dark {
+        0% {
+            color: #333333;
+        }
+        80% {
+            color: #333333;
+        }
+        90% {
+            color: #009900;
+        }
+        100% {
+            color: #333333;
+        }
+    }
+</style>
+<pre class="calendar">
+{% for (day, sol) in aoc -%}
+    <a aria-label="Day {{ day }}" class="calendar-day{{ day }} calendar-verycomplete"
+       href="/{{ current_year }}/day/{{ day }}">Puzzle Tester - <span class="calendar-day">Day {{ day }} - {{ sol.desc() }}</span> <span
+            class="calendar-mark-complete">*</span><span class="calendar-mark-verycomplete">*</span></a>
+{% endfor %}
+</pre>
+{% endblock %}
