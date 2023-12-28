@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4668593-1a1b-4613-895d-00bdeed4e501" name="Changes" comment="" />
+    <list default="true" id="f4668593-1a1b-4613-895d-00bdeed4e501" name="Changes" comment="Initial Commit." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,8 +45,8 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="DFA" show_stripe_button="false" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.32994792" />
-      <window_info active="true" id="Commit" order="1" visible="true" weight="0.32994792" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32994792" />
+      <window_info id="Commit" order="1" weight="0.32994792" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="TODO" show_stripe_button="false" />
       <window_info anchor="bottom" id="File Transfer" show_stripe_button="false" />
@@ -74,8 +74,17 @@
       <option name="presentableId" value="Default" />
       <updated>1703799425218</updated>
       <workItem from="1703799426822" duration="233000" />
-      <workItem from="1703799669523" duration="43000" />
+      <workItem from="1703799669523" duration="231000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial Commit.">
+      <option name="closed" value="true" />
+      <created>1703799829935</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1703799829935</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -91,6 +100,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Commit." />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
