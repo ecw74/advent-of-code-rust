@@ -42,8 +42,8 @@ jobs:
           echo "${{ secrets.AOC_FLASHER_FLASH_SSH_KEY }}" > ~/.ssh/aoc_flasher
           chmod 400 ~/.ssh/aoc_flasher
           echo "aoc-flasher.walther.lan,192.168.11.90 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLOWjBTN5js7DHp09iQljZSR5ZNfHdfA/LtffjmAAPhznKvFfWgWmUaOFH8RkgdEVR5AwLxMgWR6f+UUFAgNXDs=" > ~/.ssh/known_hosts
-          ssh -4 -i ~/.ssh/aoc_flasher admin@aoc-flasher.walther.lan 'rm -rf ~/advent-of-code-esp'
-          scp -4 -i ~/.ssh/aoc_flasher target/xtensa-esp32s3-espidf/debug/advent-of-code-esp admin@aoc-flasher.walther.lan:~/
-          ssh -4 -i ~/.ssh/aoc_flasher admin@aoc-flasher.walther.lan '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM0 ~/advent-of-code-esp'
-          ssh -4 -i ~/.ssh/aoc_flasher admin@aoc-flasher.walther.lan '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM1 ~/advent-of-code-esp'
-          ssh -4 -i ~/.ssh/aoc_flasher admin@aoc-flasher.walther.lan '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM2 ~/advent-of-code-esp'
+          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 'rm -rf ~/advent-of-code-esp'
+          scp -4 -i ~/.ssh/aoc_flasher target/xtensa-esp32s3-espidf/debug/advent-of-code-esp admin@192.168.11.90:~/
+          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM0 ~/advent-of-code-esp'
+          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM1 ~/advent-of-code-esp'
+          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM2 ~/advent-of-code-esp'
