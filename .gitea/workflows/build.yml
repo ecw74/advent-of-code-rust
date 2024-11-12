@@ -12,12 +12,39 @@ on:
 jobs:
   build:
 
-    runs-on: idf-rust-runner
+    runs-on: ubuntu-22.04
+    container:
+      image: ecw74/idf-rust-gitea:esp32s3_1.74.0.0
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup Envionment
+#      - name: Cache Cargo registry
+#        uses: actions/cache@v3
+#        with:
+#          path: ~/.cargo/registry
+#          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
+#          restore-keys: |
+#            cargo-registry-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
+#
+#      - name: Cache Cargo index
+#        uses: actions/cache@v3
+#        with:
+#          path: ~/.cargo/git
+#          key: ${{ runner.os }}-cargo-index-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
+#          restore-keys: |
+#            cargo-index-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
+#
+#      - name: Cache Cargo build
+#        uses: actions/cache@v3
+#        with:
+#          path: advent-of-code-esp/target
+#          key: ${{ runner.os }}-cargo-target-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
+#          restore-keys: |
+#            cargo-target-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
+
+      - name: Setup Environment
         run: |
           echo "BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S)" >> $GITHUB_ENV
           echo "SHORT_COMMIT_HASH=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
@@ -32,6 +59,7 @@ jobs:
         run: |
           git config --global core.compression 0
           cd advent-of-code-esp
+          cargo check
           cargo build
 
       - name: Flash Firmware
