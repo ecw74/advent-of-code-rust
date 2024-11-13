@@ -1,4 +1,4 @@
 {
   "name": "idf-rust",
-  "image": "ecw74/idf-rust-gitea:esp32s3_1.74.0.0"
+  "image": "ecw74/idf-rust-gitea:esp32s3_1.82.0.3"
 }
