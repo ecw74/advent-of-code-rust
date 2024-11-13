@@ -74,4 +74,3 @@ jobs:
           scp -4 -i ~/.ssh/aoc_flasher target/xtensa-esp32s3-espidf/debug/advent-of-code-esp admin@192.168.11.90:~/
           ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM0 ~/advent-of-code-esp'
           ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM1 ~/advent-of-code-esp'
-          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM2 ~/advent-of-code-esp'
