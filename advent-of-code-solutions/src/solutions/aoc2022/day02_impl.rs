@@ -14,7 +14,12 @@ impl Day02 {
                 if round.len() < 2 {
                     return None; // Skip rounds with insufficient data.
                 }
-                let points = match round[1] { "X" => 1, "Y" => 2, "Z" => 3, _ => 0, }; // Assign points.
+                let points = match round[1] {
+                    "X" => 1,
+                    "Y" => 2,
+                    "Z" => 3,
+                    _ => 0,
+                }; // Assign points.
                 match (round[0], round[1]) {
                     // Specific combinations yield additional points.
                     ("A", "Z") | ("C", "Y") | ("B", "X") => Some(points + 0),
@@ -39,9 +44,30 @@ impl Day02 {
                 match round[1] {
                     // Points allocation based on the second element of the round.
                     // "X" indicates a loss, "Y" a draw, and "Z" a win.
-                    "X" => { match round[0] { "A" => Some(3), "B" => Some(1), "C" => Some(2), _ => Some(0) } }
-                    "Y" => { match round[0] { "A" => Some(3 + 1), "B" => Some(3 + 2), "C" => Some(3 + 3), _ => Some(0) } }
-                    "Z" => { match round[0] { "A" => Some(6 + 2), "B" => Some(6 + 3), "C" => Some(6 + 1), _ => Some(0) } }
+                    "X" => {
+                        match round[0] {
+                            "A" => Some(3),
+                            "B" => Some(1),
+                            "C" => Some(2),
+                            _ => Some(0)
+                        }
+                    }
+                    "Y" => {
+                        match round[0] {
+                            "A" => Some(3 + 1),
+                            "B" => Some(3 + 2),
+                            "C" => Some(3 + 3),
+                            _ => Some(0)
+                        }
+                    }
+                    "Z" => {
+                        match round[0] {
+                            "A" => Some(6 + 2),
+                            "B" => Some(6 + 3),
+                            "C" => Some(6 + 1),
+                            _ => Some(0)
+                        }
+                    }
                     _ => Some(0),
                 }
             }).sum::<i32>() as i64 // Sum the points.

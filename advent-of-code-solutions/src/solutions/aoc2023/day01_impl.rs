@@ -10,7 +10,7 @@ impl Day01 {
                     .filter(|c| c.is_digit(10))
                     .collect();
                 // Creating a string from the first and last digit.
-                let combined_digits = format!("{}{}", digits[0], digits[digits.len()-1]);
+                let combined_digits = format!("{}{}", digits[0], digits[digits.len() - 1]);
                 // Parsing the string as a number, defaulting to 0 on error.
                 match combined_digits.parse::<u32>() {
                     Ok(num) => Some(num),

@@ -2,14 +2,15 @@ use anyhow::{bail, Result};
 use esp_idf_svc::{
     eventloop::EspSystemEventLoop,
     hal::peripheral,
+    sys::nvs_flash_erase,
+    sys::nvs_flash_init,
     sys::ESP_ERR_NVS_NEW_VERSION_FOUND,
     sys::ESP_ERR_NVS_NO_FREE_PAGES,
     sys::ESP_OK,
-    sys::nvs_flash_erase,
-    sys::nvs_flash_init,
     wifi::{AuthMethod, BlockingWifi, ClientConfiguration, Configuration, EspWifi},
 };
 use log::info;
+use heapless::String as HeaplessString;
 
 #[derive(Debug)]
 pub struct EspError {
@@ -96,8 +97,8 @@ pub fn wifi(
     };
 
     wifi.set_configuration(&Configuration::Client(ClientConfiguration {
-        ssid: ssid.into(),
-        password: pass.into(),
+        ssid: HeaplessString::<32>::try_from(ssid).expect("SSID too long"),
+        password: HeaplessString::<64>::try_from(pass).expect("Password too long"),
         channel,
         auth_method,
         ..Default::default()
