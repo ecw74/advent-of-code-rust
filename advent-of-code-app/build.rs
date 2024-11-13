@@ -1,5 +1,5 @@
-use std::process::Command;
 use std::env;
+use std::process::Command;
 
 fn main() {
     let build_date = env::var("BUILD_DATE").unwrap_or_else(|_| {

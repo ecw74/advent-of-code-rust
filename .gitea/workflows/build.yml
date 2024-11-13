@@ -14,7 +14,7 @@ jobs:
 
     runs-on: ubuntu-22.04
     container:
-      image: ecw74/idf-rust-gitea:esp32s3_1.74.0.0
+      image: ecw74/idf-rust-gitea:esp32s3_1.82.0.3
 
     steps:
       - name: Checkout
@@ -74,4 +74,3 @@ jobs:
           scp -4 -i ~/.ssh/aoc_flasher target/xtensa-esp32s3-espidf/debug/advent-of-code-esp admin@192.168.11.90:~/
           ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM0 ~/advent-of-code-esp'
           ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM1 ~/advent-of-code-esp'
-          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM2 ~/advent-of-code-esp'

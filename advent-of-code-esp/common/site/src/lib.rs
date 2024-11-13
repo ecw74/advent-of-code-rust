@@ -18,7 +18,6 @@ mod image_handler;
 mod js_handler;
 mod multipart;
 
-
 pub const BUILD_DATE: &str = env!("BUILD_DATE");
 pub const SHORT_COMMIT_HASH: &str = env!("SHORT_COMMIT_HASH");
 
