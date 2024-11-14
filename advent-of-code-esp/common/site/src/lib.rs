@@ -19,7 +19,8 @@ mod js_handler;
 mod multipart;
 
 pub const BUILD_DATE: &str = env!("BUILD_DATE");
-pub const SHORT_COMMIT_HASH: &str = env!("SHORT_COMMIT_HASH");
+pub const COMMIT_HASH: &str = env!("COMMIT_HASH");
+pub const COMMIT_HASH_SHORT: &str = env!("COMMIT_HASH_SHORT");
 
 pub fn site(server: &mut EspHttpServer, aoc: &BTreeMap<u32, BTreeMap<u32, Box<dyn AoCSolution>>>) {
     let _ = load_and_serve_css(server);
