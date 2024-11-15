@@ -27,7 +27,7 @@ fn main() -> std::io::Result<()> {
     let input = cli.input;
 
     let build_date = env!("BUILD_DATE");
-    let commit_hash = env!("SHORT_COMMIT_HASH");
+    let commit_hash = env!("COMMIT_HASH_SHORT");
 
     println!("Build Date  : {}", build_date);
     println!("Commit Hash : {}", commit_hash);
