@@ -73,5 +73,6 @@ jobs:
           echo "aoc-flasher.walther.lan,192.168.11.90 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLOWjBTN5js7DHp09iQljZSR5ZNfHdfA/LtffjmAAPhznKvFfWgWmUaOFH8RkgdEVR5AwLxMgWR6f+UUFAgNXDs=" > ~/.ssh/known_hosts
           ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 'rm -rf ~/advent-of-code-esp'
           scp -4 -i ~/.ssh/aoc_flasher target/xtensa-esp32s3-espidf/debug/advent-of-code-esp admin@192.168.11.90:~/
-          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM0 ~/advent-of-code-esp'
-          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM1 ~/advent-of-code-esp'
+          for DEVICE in /dev/ttyACM{0..3}; do
+              ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p ${DEVICE} ~/advent-of-code-esp'
+          done
