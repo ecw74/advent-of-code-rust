@@ -6,6 +6,7 @@ use std::time::Instant;
 
 use advent_of_code_solutions::advent_of_code_2022;
 use advent_of_code_solutions::advent_of_code_2023;
+use advent_of_code_solutions::advent_of_code_2024;
 use advent_of_code_solutions::aoc_solution::AoCSolution;
 use clap::Parser;
 
@@ -37,13 +38,18 @@ fn main() -> std::io::Result<()> {
     f.read_to_string(&mut buffer)?;
 
     let mut solutions: BTreeMap<u32, BTreeMap<u32, Box<dyn AoCSolution>>> = BTreeMap::new();
+
     let mut solutions_2022: BTreeMap<u32, Box<dyn AoCSolution>> = BTreeMap::new();
     let mut solutions_2023: BTreeMap<u32, Box<dyn AoCSolution>> = BTreeMap::new();
+    let mut solutions_2024: BTreeMap<u32, Box<dyn AoCSolution>> = BTreeMap::new();
+
     let _ = advent_of_code_2022(&mut solutions_2022);
     let _ = advent_of_code_2023(&mut solutions_2023);
+    let _ = advent_of_code_2024(&mut solutions_2024);
 
     solutions.insert(2022, solutions_2022);
     solutions.insert(2023, solutions_2023);
+    solutions.insert(2023, solutions_2024);
 
     let aoc = solutions.get(&year).unwrap().get(&day).unwrap();
 
@@ -53,7 +59,6 @@ fn main() -> std::io::Result<()> {
     let part_1 = aoc.part_1_final(buffer.as_str());
     let duration_part_1 = start_part_1.elapsed();
     println!("Part 1: {}, {:?}", part_1, duration_part_1);
-
 
     let start_part_2 = Instant::now();
     let part_2 = aoc.part_2_final(buffer.as_str());

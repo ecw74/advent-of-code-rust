@@ -1,0 +1,4 @@
+[workspace]
+members = ["advent-of-code-app", "advent-of-code-solutions"]
+exclude = ["advent-of-code-esp"]
+resolver = "2"

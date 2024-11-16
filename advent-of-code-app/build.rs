@@ -3,11 +3,22 @@ use std::process::Command;
 
 fn main() {
     let build_date = env::var("BUILD_DATE").unwrap_or_else(|_| {
-        let output = Command::new("date")
-            .arg("+%Y-%m-%dT%H:%M:%S")
-            .output()
-            .expect("Failed to execute date command");
-        String::from_utf8_lossy(&output.stdout).trim().to_string()
+        if cfg!(target_os = "windows") {
+            // Windows: PowerShell verwenden
+            let output = Command::new("powershell")
+                .arg("-Command")
+                .arg("[DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ss')")
+                .output()
+                .expect("Failed to execute PowerShell command");
+            String::from_utf8_lossy(&output.stdout).trim().to_string()
+        } else {
+            // Unix/Linux/macOS: date-Befehl verwenden
+            let output = Command::new("date")
+                .arg("+%Y-%m-%dT%H:%M:%S")
+                .output()
+                .expect("Failed to execute date command");
+            String::from_utf8_lossy(&output.stdout).trim().to_string()
+        }
     });
 
     let commit_hash = env::var("COMMIT_HASH").unwrap_or_else(|_| {

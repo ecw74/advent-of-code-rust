@@ -6,10 +6,13 @@ impl Day01 {
     fn calculate_calories(&self, input: &str) -> Vec<i32> {
         input
             .split("\n\n") // Splits the input into groups, each group for one elf.
-            .map(|elf_inventory| elf_inventory
-                .lines() // Processes each line in a group.
-                .map(|calories| calories.parse::<i32>().unwrap_or(0)) // Parses each line as an integer, defaults to 0 on failure.
-                .sum::<i32>() // Sums up the calories for the current elf.
+            .map(
+                |elf_inventory| {
+                    elf_inventory
+                        .lines() // Processes each line in a group.
+                        .map(|calories| calories.parse::<i32>().unwrap_or(0)) // Parses each line as an integer, defaults to 0 on failure.
+                        .sum::<i32>()
+                }, // Sums up the calories for the current elf.
             )
             .collect() // Collects the sums into a vector, one sum per elf.
     }
