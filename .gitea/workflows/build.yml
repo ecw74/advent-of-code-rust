@@ -2,12 +2,6 @@ name: Cargo Build
 
 on:
   push:
-#    branches:
-#      - main  # Assuming your default branch is named 'main'
-#  pull_request:
-#    branches:
-#      - main
-
 
 jobs:
   build:
@@ -19,30 +13,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-#      - name: Cache Cargo registry
-#        uses: actions/cache@v3
-#        with:
-#          path: ~/.cargo/registry
-#          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
-#          restore-keys: |
-#            cargo-registry-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
-#
-#      - name: Cache Cargo index
-#        uses: actions/cache@v3
-#        with:
-#          path: ~/.cargo/git
-#          key: ${{ runner.os }}-cargo-index-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
-#          restore-keys: |
-#            cargo-index-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
-#
-#      - name: Cache Cargo build
-#        uses: actions/cache@v3
-#        with:
-#          path: advent-of-code-esp/target
-#          key: ${{ runner.os }}-cargo-target-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
-#          restore-keys: |
-#            cargo-target-${{ hashFiles('advent-of-code-esp/Cargo.lock') }}
 
       - name: Setup Environment
         run: |
