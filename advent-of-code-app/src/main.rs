@@ -49,7 +49,7 @@ fn main() -> std::io::Result<()> {
 
     solutions.insert(2022, solutions_2022);
     solutions.insert(2023, solutions_2023);
-    solutions.insert(2023, solutions_2024);
+    solutions.insert(2024, solutions_2024);
 
     let aoc = solutions.get(&year).unwrap().get(&day).unwrap();
 

@@ -19,10 +19,18 @@ impl Day{day} {
 }
 
 impl AoCSolution for Day{day} {
-    fn day(&self) -> u32 { self.day }
-    fn year(&self) -> u32 { self.year }
-    fn desc(&self) -> String { self.desc.clone() }
-    fn code(&self) -> String { self.code.clone() }
+    fn day(&self) -> u32 {
+        self.day
+    }
+    fn year(&self) -> u32 {
+        self.year
+    }
+    fn desc(&self) -> String {
+        self.desc.clone()
+    }
+    fn code(&self) -> String {
+        self.code.clone()
+    }
 
     fn factory(&self) -> Box<dyn AoCSolution> {
         Box::new(Self {
@@ -33,7 +41,11 @@ impl AoCSolution for Day{day} {
         })
     }
 
-    fn part_1_final(&self, input: &str) -> i64 { self.part_1(input) }
+    fn part_1_final(&self, input: &str) -> i64 {
+        self.part_1(input)
+    }
 
-    fn part_2_final(&self, input: &str) -> i64 { self.part_2(input) }
+    fn part_2_final(&self, input: &str) -> i64 {
+        self.part_2(input)
+    }
 }
