@@ -24,9 +24,10 @@ impl Day02 {
                     // Specific combinations yield additional points.
                     ("A", "Z") | ("C", "Y") | ("B", "X") => Some(points + 0),
                     ("C", "X") | ("B", "Z") | ("A", "Y") => Some(points + 6),
-                    _ => Some(points + 3)
+                    _ => Some(points + 3),
                 }
-            }).sum::<i32>() as i64 // Sum the points.
+            })
+            .sum::<i32>() as i64 // Sum the points.
     }
 
     /// Part 2 of the challenge.
@@ -44,33 +45,28 @@ impl Day02 {
                 match round[1] {
                     // Points allocation based on the second element of the round.
                     // "X" indicates a loss, "Y" a draw, and "Z" a win.
-                    "X" => {
-                        match round[0] {
-                            "A" => Some(3),
-                            "B" => Some(1),
-                            "C" => Some(2),
-                            _ => Some(0)
-                        }
-                    }
-                    "Y" => {
-                        match round[0] {
-                            "A" => Some(3 + 1),
-                            "B" => Some(3 + 2),
-                            "C" => Some(3 + 3),
-                            _ => Some(0)
-                        }
-                    }
-                    "Z" => {
-                        match round[0] {
-                            "A" => Some(6 + 2),
-                            "B" => Some(6 + 3),
-                            "C" => Some(6 + 1),
-                            _ => Some(0)
-                        }
-                    }
+                    "X" => match round[0] {
+                        "A" => Some(3),
+                        "B" => Some(1),
+                        "C" => Some(2),
+                        _ => Some(0),
+                    },
+                    "Y" => match round[0] {
+                        "A" => Some(3 + 1),
+                        "B" => Some(3 + 2),
+                        "C" => Some(3 + 3),
+                        _ => Some(0),
+                    },
+                    "Z" => match round[0] {
+                        "A" => Some(6 + 2),
+                        "B" => Some(6 + 3),
+                        "C" => Some(6 + 1),
+                        _ => Some(0),
+                    },
                     _ => Some(0),
                 }
-            }).sum::<i32>() as i64 // Sum the points.
+            })
+            .sum::<i32>() as i64 // Sum the points.
     }
 }
 

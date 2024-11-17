@@ -6,4 +6,3 @@ mod day01_impl;
 
 mod day02;
 mod day02_impl;
-

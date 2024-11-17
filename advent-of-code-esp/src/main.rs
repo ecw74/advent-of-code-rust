@@ -3,6 +3,7 @@ use std::collections::BTreeMap;
 
 use advent_of_code_solutions::advent_of_code_2022;
 use advent_of_code_solutions::advent_of_code_2023;
+use advent_of_code_solutions::advent_of_code_2024;
 use advent_of_code_solutions::aoc_solution::AoCSolution;
 use anyhow::Result;
 use esp_idf_svc::{eventloop::EspSystemEventLoop, hal::prelude::*, http::server::EspHttpServer};
@@ -47,12 +48,15 @@ fn main() -> Result<()> {
     let mut aoc: BTreeMap<u32, BTreeMap<u32, Box<dyn AoCSolution>>> = BTreeMap::new();
     let mut aoc_2022: BTreeMap<u32, Box<dyn AoCSolution>> = BTreeMap::new();
     let mut aoc_2023: BTreeMap<u32, Box<dyn AoCSolution>> = BTreeMap::new();
+    let mut aoc_2024: BTreeMap<u32, Box<dyn AoCSolution>> = BTreeMap::new();
 
     let _ = advent_of_code_2022(&mut aoc_2022);
     let _ = advent_of_code_2023(&mut aoc_2023);
+    let _ = advent_of_code_2024(&mut aoc_2024);
 
     aoc.insert(2022, aoc_2022);
     aoc.insert(2023, aoc_2023);
+    aoc.insert(2024, aoc_2024);
 
     // Ad here your sites
     site(&mut server, &aoc);
