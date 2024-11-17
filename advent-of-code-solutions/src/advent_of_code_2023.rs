@@ -26,5 +26,12 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         Box::new(aoc2023::Day02::new(2, YEAR, "Cube Conundrum", day_02_src)),
     );
 
+    // Add Day 3
+    let day_03_src: &'static [u8] = include_bytes!("solutions/aoc2023/day03_impl.rs");
+    solutions.insert(
+        3,
+        Box::new(aoc2023::Day03::new(3, YEAR, "Gear Ratios", day_03_src)),
+    );
+
     Ok(())
 }
