@@ -30,5 +30,17 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         )),
     );
 
+    // Add Day 3
+    let day_03_src: &'static [u8] = include_bytes!("solutions/aoc2022/day03_impl.rs");
+    solutions.insert(
+        3,
+        Box::new(aoc2022::Day03::new(
+            3,
+            YEAR,
+            "Rucksack Reorganization",
+            day_03_src,
+        )),
+    );
+
     Ok(())
 }
