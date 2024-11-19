@@ -46,12 +46,14 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
     let day_04_src: &'static [u8] = include_bytes!("solutions/aoc2022/day04_impl.rs");
     solutions.insert(
         4,
-        Box::new(aoc2022::Day04::new(
-            4,
-            YEAR,
-            "Camp Cleanup",
-            day_04_src,
-        )),
+        Box::new(aoc2022::Day04::new(4, YEAR, "Camp Cleanup", day_04_src)),
+    );
+
+    // Add Day 5
+    let day_05_src: &'static [u8] = include_bytes!("solutions/aoc2022/day05_impl.rs");
+    solutions.insert(
+        5,
+        Box::new(aoc2022::Day05::new(5, YEAR, "Supply Stacks", day_05_src)),
     );
 
     Ok(())
