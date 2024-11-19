@@ -84,7 +84,14 @@ impl Day05 {
             let moved_part: String = if reverse {
                 source.chars().rev().take(count).collect()
             } else {
-                source.chars().rev().take(count).collect::<Vec<_>>().into_iter().rev().collect()
+                source
+                    .chars()
+                    .rev()
+                    .take(count)
+                    .collect::<Vec<_>>()
+                    .into_iter()
+                    .rev()
+                    .collect()
             };
 
             // Remove the moved crates from the source stack.
@@ -95,27 +102,21 @@ impl Day05 {
     }
 
     /// Solves part 1 of the puzzle where crates are moved in reverse order.
-    pub fn part_1(&self, _input: &str) -> i64 {
+    pub fn part_1(&self, _input: &str) -> String {
         let (mut stacks, moves) = Self::parse_input(_input);
         Self::execute_moves(&mut stacks, &moves, true); // Reverse order for CrateMover 9000.
 
         // Collect the top crate from each stack to form the final result.
-        let last_chars: String = stacks.iter().filter_map(|s| s.chars().last()).collect();
-
-        println!("Part 1: {}", last_chars);
-        0i64
+        stacks.iter().filter_map(|s| s.chars().last()).collect()
     }
 
     /// Solves part 2 of the puzzle where crates retain their order when moved.
-    pub fn part_2(&self, _input: &str) -> i64 {
+    pub fn part_2(&self, _input: &str) -> String {
         let (mut stacks, moves) = Self::parse_input(_input);
         Self::execute_moves(&mut stacks, &moves, false); // Retain order for CrateMover 9001.
 
         // Collect the top crate from each stack to form the final result.
-        let last_chars: String = stacks.iter().filter_map(|s| s.chars().last()).collect();
-
-        println!("Part 2: {}", last_chars);
-        0i64
+        stacks.iter().filter_map(|s| s.chars().last()).collect()
     }
 }
 
@@ -141,8 +142,7 @@ move 3 from 1 to 3
 move 2 from 2 to 1
 move 1 from 1 to 2
 "#;
-        // Expected result: Part 1 outputs "CMZ".
-        assert_eq!(day05.part_1(input), 0);
+        assert_eq!(day05.part_1(input), "CMZ");
     }
 
     #[test]
@@ -166,7 +166,6 @@ move 3 from 1 to 3
 move 2 from 2 to 1
 move 1 from 1 to 2
 "#;
-        // Expected result: Part 2 outputs "MCD".
-        assert_eq!(day05.part_2(input), 0);
+        assert_eq!(day05.part_2(input), "MCD");
     }
 }

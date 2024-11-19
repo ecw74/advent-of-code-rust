@@ -5,8 +5,8 @@ impl Day02 {
     /// Processes input data to compute a specific result based on game rules.
     /// Each line of the input represents a game round.
     /// The function calculates points based on specific game outcomes.
-    pub fn part_1(&self, input: &str) -> i64 {
-        input
+    pub fn part_1(&self, input: &str) -> String {
+        let sum = input
             .split("\n") // Split the input into lines.
             .filter(|s| !s.is_empty()) // Filter out empty lines.
             .filter_map(|game| {
@@ -27,14 +27,15 @@ impl Day02 {
                     _ => Some(points + 3),
                 }
             })
-            .sum::<i32>() as i64 // Sum the points.
+            .sum::<i32>();
+        sum.to_string() // Convert the final result to a String
     }
 
     /// Part 2 of the challenge.
     /// Similar to part_1 but with a different point system.
     /// Points are calculated based on different outcomes and conditions.
-    pub fn part_2(&self, input: &str) -> i64 {
-        input
+    pub fn part_2(&self, input: &str) -> String {
+        let sum = input
             .split("\n") // Split the input into lines.
             .filter(|s| !s.is_empty()) // Filter out empty lines.
             .filter_map(|game| {
@@ -66,7 +67,8 @@ impl Day02 {
                     _ => Some(0),
                 }
             })
-            .sum::<i32>() as i64 // Sum the points.
+            .sum::<i32>();
+        sum.to_string() // Convert the final result to a String
     }
 }
 
@@ -87,8 +89,7 @@ A Y
 B X
 C Z
 "#;
-        let expected = 15;
-        assert_eq!(day02.part_1(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day02.part_1(input), "15"); // Asserts if the function output matches the expected result.
     }
 
     #[test]
@@ -107,7 +108,6 @@ A Y
 B X
 C Z
 "#;
-        let expected = 12;
-        assert_eq!(day02.part_2(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day02.part_2(input), "12"); // Asserts if the function output matches the expected result.
     }
 }

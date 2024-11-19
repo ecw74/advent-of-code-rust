@@ -36,12 +36,12 @@ impl Day02 {
     }
 
     // Solves Part 1 of the puzzle: sum the IDs of games that are possible with fixed cube limits.
-    pub fn part_1(&self, input: &str) -> i64 {
+    pub fn part_1(&self, input: &str) -> String {
         let games = Self::parse_input(input);
         let max_cubes = (12, 13, 14); // (red, green, blue)
         let (max_red, max_green, max_blue) = max_cubes;
 
-        games
+        let sum = games
             .iter()
             .filter_map(|game| {
                 if game.reveals.iter().all(|reveal| {
@@ -56,13 +56,14 @@ impl Day02 {
                     None
                 }
             })
-            .sum()
+            .sum::<i64>();
+        sum.to_string() // Convert the final result to a String
     }
 
     // Solves Part 2 of the puzzle: sum the powers of the minimum required cube sets.
-    pub fn part_2(&self, _input: &str) -> i64 {
+    pub fn part_2(&self, _input: &str) -> String {
         let games = Self::parse_input(_input);
-        games
+        let sum = games
             .iter()
             .map(|game| {
                 // Find the maximum count of each color across all reveals
@@ -84,7 +85,8 @@ impl Day02 {
 
                 power
             })
-            .sum()
+            .sum::<i64>();
+        sum.to_string() // Convert the final result to a String
     }
 }
 
@@ -107,8 +109,7 @@ Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
 Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
         "#;
-        let expected = 8;
-        assert_eq!(day02.part_1(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day02.part_1(input), "8"); // Asserts if the function output matches the expected result.
     }
 
     #[test]
@@ -129,7 +130,6 @@ Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
 Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
         "#;
-        let expected = 2286;
-        assert_eq!(day02.part_2(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day02.part_2(input), "2286"); // Asserts if the function output matches the expected result.
     }
 }

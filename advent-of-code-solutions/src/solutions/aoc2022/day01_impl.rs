@@ -18,22 +18,24 @@ impl Day01 {
     }
 
     /// Part 1 of the challenge: Finds the elf with the maximum calorie intake.
-    pub fn part_1(&self, input: &str) -> i64 {
+    pub fn part_1(&self, input: &str) -> String {
         let calories_vec = self.calculate_calories(input); // Gets the calorie sums.
-        calories_vec
+        let sum = calories_vec
             .into_iter() // Converts vector into iterator.
             .max() // Finds the maximum sum.
-            .unwrap_or(0) as i64 // Returns the max, or 0 if there are no sums.
+            .unwrap_or(0); // Returns the max, or 0 if there are no sums.
+        sum.to_string() // Convert the final result to a String
     }
 
     /// Part 2 of the challenge: Sums the top three calorie intakes.
-    pub fn part_2(&self, input: &str) -> i64 {
+    pub fn part_2(&self, input: &str) -> String {
         let mut calories_vec = self.calculate_calories(input); // Gets the calorie sums.
         calories_vec.sort_by(|a, b| b.cmp(a)); // Sorts the sums in descending order.
-        calories_vec
+        let sum = calories_vec
             .iter() // Iterates over the sorted sums.
             .take(3) // Takes the top three sums.
-            .sum::<i32>() as i64 // Sums them up and returns as i64.
+            .sum::<i32>();
+        sum.to_string() // Convert the final result to a String
     }
 }
 
@@ -65,8 +67,7 @@ mod test {
 
 10000
         "#;
-        let expected = 24000;
-        assert_eq!(day01.part_1(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day01.part_1(input), "24000"); // Asserts if the function output matches the expected result.
     }
 
     #[test]
@@ -96,7 +97,6 @@ mod test {
 
 10000
         "#;
-        let expected = 45000;
-        assert_eq!(day01.part_2(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day01.part_2(input), "45000"); // Asserts if the function output matches the expected result.
     }
 }

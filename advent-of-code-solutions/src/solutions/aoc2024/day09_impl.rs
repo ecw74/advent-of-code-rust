@@ -1,10 +1,10 @@
 use super::day09::Day09;
 
 impl Day09 {
-    pub fn part_1(&self, _input: &str) -> i64 {
+    pub fn part_1(&self, _input: &str) -> String {
         todo!()
     }
-    pub fn part_2(&self, _input: &str) -> i64 {
+    pub fn part_2(&self, _input: &str) -> String {
         todo!()
     }
 }
@@ -22,8 +22,7 @@ mod test {
             code: "".to_string(),
         };
         let input = r#""#;
-        let expected = 42;
-        assert_eq!(day09.part_1(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day09.part_1(input), "TBD"); // Asserts if the function output matches the expected result.
     }
 
     #[test]
@@ -38,7 +37,6 @@ mod test {
             code: "".to_string(),
         };
         let input = r#""#;
-        let expected = 42;
-        assert_eq!(day09.part_2(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day09.part_2(input), "TBD"); // Asserts if the function output matches the expected result.
     }
 }
