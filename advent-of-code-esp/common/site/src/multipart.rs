@@ -43,7 +43,6 @@ fn parse_multipart_form_data(input: &Vec<u8>, boundary: &str) -> Option<(String,
                 .split("\r\n\r\n")
                 .nth(1)
                 .unwrap_or_default()
-                .trim()
                 .to_string();
         } else if part.contains("Content-Disposition: form-data; name=\"puzzle-answer-1\"") {
             puzzle_answer = part
@@ -57,7 +56,6 @@ fn parse_multipart_form_data(input: &Vec<u8>, boundary: &str) -> Option<(String,
                 .split("\r\n\r\n")
                 .nth(1)
                 .unwrap_or_default()
-                .trim()
                 .to_string();
         } else if part.contains("Content-Disposition: form-data; name=\"puzzle-answer-2\"") {
             puzzle_answer = part
