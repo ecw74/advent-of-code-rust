@@ -26,8 +26,8 @@ impl Day04 {
     }
 
     /// Part 1: Counts the number of assignment pairs where one range fully contains the other.
-    pub fn part_1(&self, _input: &str) -> i64 {
-        _input
+    pub fn part_1(&self, _input: &str) -> String {
+        let sum = _input
             .lines()
             .filter(|line| !line.trim().is_empty())
             .map(|line| {
@@ -40,12 +40,13 @@ impl Day04 {
                     0
                 }
             })
-            .sum()
+            .sum::<u32>();
+        sum.to_string() // Convert the final result to a String
     }
 
     /// Part 2: Counts the number of assignment pairs that overlap at all.
-    pub fn part_2(&self, _input: &str) -> i64 {
-        _input
+    pub fn part_2(&self, _input: &str) -> String {
+        let sum = _input
             .lines()
             .filter(|line| !line.trim().is_empty())
             .map(|line| {
@@ -58,7 +59,8 @@ impl Day04 {
                     0
                 }
             })
-            .sum()
+            .sum::<u32>();
+        sum.to_string() // Convert the final result to a String
     }
 }
 
@@ -81,7 +83,7 @@ mod test {
 6-6,4-6
 2-6,4-8
         "#;
-        assert_eq!(day04.part_1(input), 2); // Expect 2 pairs with full containment.
+        assert_eq!(day04.part_1(input), "2"); // Expect 2 pairs with full containment.
     }
 
     #[test]
@@ -102,6 +104,6 @@ mod test {
 6-6,4-6
 2-6,4-8
         "#;
-        assert_eq!(day04.part_2(input), 4); // Expect 4 pairs with any overlap.
+        assert_eq!(day04.part_2(input), "4"); // Expect 4 pairs with any overlap.
     }
 }

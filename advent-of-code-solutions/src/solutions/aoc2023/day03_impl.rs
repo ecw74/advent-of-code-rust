@@ -77,9 +77,10 @@ impl Day03 {
     }
 
     // Part 1: Solve the puzzle
-    pub fn part_1(&self, input: &str) -> i64 {
+    pub fn part_1(&self, input: &str) -> String {
         let matrix = Self::parse_input(input);
-        Self::extract_numbers_adjacent_to_symbols(&matrix)
+        let sum = Self::extract_numbers_adjacent_to_symbols(&matrix);
+        sum.to_string() // Convert the final result to a String
     }
 
     // Extract gear ratios and sum them
@@ -179,9 +180,10 @@ impl Day03 {
         sum_gear_ratios
     }
 
-    pub fn part_2(&self, _input: &str) -> i64 {
+    pub fn part_2(&self, _input: &str) -> String {
         let matrix = Self::parse_input(_input);
-        Self::find_gear_ratios(&matrix)
+        let sum = Self::find_gear_ratios(&matrix);
+        sum.to_string()
     }
 }
 
@@ -209,8 +211,7 @@ mod test {
 ...$.*....
 .664.598..
         "#;
-        let expected = 4361;
-        assert_eq!(day03.part_1(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day03.part_1(input), "4361"); // Asserts if the function output matches the expected result.
     }
 
     #[test]
@@ -236,7 +237,6 @@ mod test {
 ...$.*....
 .664.598..
         "#;
-        let expected = 467835;
-        assert_eq!(day03.part_2(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day03.part_2(input), "467835"); // Asserts if the function output matches the expected result.
     }
 }

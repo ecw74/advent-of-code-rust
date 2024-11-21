@@ -113,7 +113,7 @@ pub fn load_and_serve_event(
                 }
 
                 if level == "1" {
-                    match puzzle_answer.parse::<i64>() {
+                    match puzzle_answer.parse::<String>() {
                         Ok(int_value) => {
                             if int_value == sol_clone.part_1_final(&puzzle_upload) {
                                 complete = 1
@@ -129,7 +129,7 @@ pub fn load_and_serve_event(
                         }
                     }
                 } else if level == "2" {
-                    match puzzle_answer.parse::<i64>() {
+                    match puzzle_answer.parse::<String>() {
                         Ok(int_value) => {
                             if int_value == sol_clone.part_2_final(&puzzle_upload) {
                                 complete = 2
@@ -150,6 +150,7 @@ pub fn load_and_serve_event(
                         .write_all("Wrong request.".as_bytes())?;
                     return Ok(());
                 }
+
                 let duration = start.elapsed();
                 unsafe {
                     minimum_free_heap_size_after = esp_get_minimum_free_heap_size();

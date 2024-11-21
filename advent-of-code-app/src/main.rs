@@ -65,5 +65,6 @@ fn main() -> std::io::Result<()> {
     let duration_part_2 = start_part_2.elapsed();
     println!("Part 2: {}, {:?}", part_2, duration_part_2);
 
+
     Ok(())
 }

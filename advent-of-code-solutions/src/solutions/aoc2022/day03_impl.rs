@@ -60,8 +60,8 @@ impl Day03 {
 
     // Solves Part 1 of the Rucksack Reorganization puzzle.
     // Finds the sum of priorities of misplaced items within each rucksack.
-    pub fn part_1(&self, _input: &str) -> i64 {
-        _input
+    pub fn part_1(&self, _input: &str) -> String {
+        let sum = _input
             .lines()
             .filter(|line| !line.trim().is_empty())
             .map(|line| {
@@ -69,18 +69,19 @@ impl Day03 {
                 let (left, right) = line.split_at(mid); // Split the rucksack into two compartments
                 Self::find_common_char_priority(left, right, right).unwrap_or(0)
             })
-            .sum() // Sum the priorities of the misplaced items
+            .sum::<i64>(); // Sum the priorities of the misplaced items
+        sum.to_string() // Convert the final result to a String
     }
 
     // Solves Part 2 of the Rucksack Reorganization puzzle.
     // Finds the sum of priorities of common badge items across groups of three Elves.
-    pub fn part_2(&self, _input: &str) -> i64 {
+    pub fn part_2(&self, _input: &str) -> String {
         let lines: Vec<&str> = _input
             .lines()
             .filter(|line| !line.trim().is_empty())
             .collect();
 
-        lines
+        let sum = lines
             .chunks(3) // Group the rucksacks in sets of three (each Elf group)
             .filter_map(|chunk| {
                 if chunk.len() == 3 {
@@ -89,7 +90,8 @@ impl Day03 {
                     None // Ignore groups that do not have exactly three rucksacks
                 }
             })
-            .sum() // Sum the priorities of the badge items
+            .sum::<i64>(); // Sum the priorities of the badge items
+        sum.to_string() // Convert the final result to a String
     }
 }
 
@@ -113,7 +115,7 @@ wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
 ttgJtRGJQctTZtZT
 CrZsJsPPZsGzwwsLwLmpwMDw
         "#;
-        assert_eq!(day03.part_1(input), 157); // Check if the result matches the expected value
+        assert_eq!(day03.part_1(input), "157"); // Check if the result matches the expected value
     }
 
     #[test]
@@ -135,6 +137,6 @@ wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
 ttgJtRGJQctTZtZT
 CrZsJsPPZsGzwwsLwLmpwMDw
         "#;
-        assert_eq!(day03.part_2(input), 70); // Check if the result matches the expected value
+        assert_eq!(day03.part_2(input), "70"); // Check if the result matches the expected value
     }
 }

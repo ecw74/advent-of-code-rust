@@ -41,11 +41,11 @@ impl AoCSolution for Day17 {
         })
     }
 
-    fn part_1_final(&self, input: &str) -> i64 {
+    fn part_1_final(&self, input: &str) -> String {
         self.part_1(input)
     }
 
-    fn part_2_final(&self, input: &str) -> i64 {
+    fn part_2_final(&self, input: &str) -> String {
         self.part_2(input)
     }
 }

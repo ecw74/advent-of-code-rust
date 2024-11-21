@@ -2,8 +2,8 @@ use super::day01::Day01;
 
 impl Day01 {
     // Part 1 of the challenge: Summing up the first and last digits of each line.
-    pub fn part_1(&self, input: &str) -> i64 {
-        input
+    pub fn part_1(&self, input: &str) -> String {
+        let sum = input
             .split("\n") // Splitting the input string into lines.
             .filter(|s| !s.trim().is_empty()) // Filtering out empty lines.
             .filter_map(|line| {
@@ -20,11 +20,13 @@ impl Day01 {
                     Err(_) => Some(0),
                 }
             })
-            .sum::<u32>() as i64 // Summing all numbers and casting to i64.
+            .sum::<u32>() as i64; // Summing all numbers and casting to i64.
+
+        sum.to_string() // Convert the final result to a String
     }
 
     // Part 2 of the challenge: Handling spelled-out numbers.
-    pub fn part_2(&self, input: &str) -> i64 {
+    pub fn part_2(&self, input: &str) -> String {
         let replacements = [
             // Mapping of spelled-out numbers to their digit forms.
             ("zero", "z0o"),
@@ -66,8 +68,7 @@ pqr3stu8vwx
 a1b2c3d4e5f
 treb7uchet
         "#;
-        let expected = 142;
-        assert_eq!(day01.part_1(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day01.part_1(input), "142"); // Asserts if the function output matches the expected result.
     }
 
     #[test]
@@ -90,7 +91,6 @@ xtwone3four
 zoneight234
 7pqrstsixteen
         "#;
-        let expected = 281;
-        assert_eq!(day01.part_2(input), expected); // Asserts if the function output matches the expected result.
+        assert_eq!(day01.part_2(input), "281"); // Asserts if the function output matches the expected result.
     }
 }
