@@ -166,7 +166,7 @@ impl Day05 {
         // Parse seeds as ranges (start, end).
         let mut current_ranges: Vec<(u64, u64)> = seeds
             .chunks(2) // Each range is defined by two values: start and length.
-            .map(|chunk| (chunk[0], chunk[0] + chunk[1] - 1)) // Compute end from start + length.
+            .map(|chunk| (chunk[0], chunk[0] + chunk[1] - 2)) // Compute end from start + length.
             .collect();
 
         for map in &maps {
