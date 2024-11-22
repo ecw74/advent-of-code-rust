@@ -109,7 +109,6 @@ impl Day05 {
     }
 }
 
-
 mod test {
     #[test]
     /// Test for part 1 of Day 5. Verifies correct crate rearrangement using CrateMover 9000.
