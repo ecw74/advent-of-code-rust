@@ -22,7 +22,9 @@ impl Day04 {
                         .filter_map(|num| num.parse::<u32>().ok()); // Parse numbers into `u32`.
 
                     // Count how many numbers in the player's set match the winning numbers.
-                    left_numbers.filter(|&n| right_numbers.clone().any(|m| m == n)).count()
+                    left_numbers
+                        .filter(|&n| right_numbers.clone().any(|m| m == n))
+                        .count()
                 } else {
                     panic!("Invalid line format: {}", line); // Ensure proper format for each line.
                 }
