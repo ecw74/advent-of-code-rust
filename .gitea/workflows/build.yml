@@ -24,7 +24,7 @@ jobs:
             ~/.cargo/git/db/
           key: cargo-registry-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            cargo-registry
+            cargo-registry-
 
       - name: Cache Cargo Target
         uses: actions/cache@v3
@@ -32,28 +32,27 @@ jobs:
           path: |
             advent-of-code-esp/.embuild
             advent-of-code-esp/target
-          key: ${{ runner.os }}-cargo-target-${{ hashFiles('**/Cargo.lock') }}
+          key: cargo-target-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            cargo-target
+            cargo-target-
 
       - name: Setup Environment
+        env:
+          WIFI_SSID: ${{ secrets.WIFI_SSID }}
+          WIFI_PSK: ${{ secrets.WIFI_PSK }}
         run: |
           echo "BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S)" >> $GITHUB_ENV
           echo "COMMIT_HASH=$(echo ${GITHUB_SHA})" >> $GITHUB_ENV
           echo "COMMIT_HASH_SHORT=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
-
-      - name: Create Config
-        run: |
           echo "[advent-of-code-esp]" > advent-of-code-esp/cfg.toml
-          echo "wifi_ssid = \"${{ secrets.WIFI_SSID }}\"" >> advent-of-code-esp/cfg.toml
-          echo "wifi_psk = \"${{ secrets.WIFI_PSK }}\"" >> advent-of-code-esp/cfg.toml
+          echo "wifi_ssid = \"$WIFI_SSID\"" >> advent-of-code-esp/cfg.toml
+          echo "wifi_psk = \"$WIFI_PSK\"" >> advent-of-code-esp/cfg.toml
 
       - name: Build
         run: |
           git config --global core.compression 0
           cd advent-of-code-esp
-          cargo check
-          cargo build
+          cargo build --release
 
       - name: Upload Firmware
         run: |
@@ -64,7 +63,7 @@ jobs:
           chmod 400 ~/.ssh/aoc_flasher
           echo "aoc-flasher.walther.lan,192.168.11.90 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLOWjBTN5js7DHp09iQljZSR5ZNfHdfA/LtffjmAAPhznKvFfWgWmUaOFH8RkgdEVR5AwLxMgWR6f+UUFAgNXDs=" > ~/.ssh/known_hosts
           ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 'rm -rf ~/advent-of-code-esp'
-          scp -4 -i ~/.ssh/aoc_flasher target/xtensa-esp32s3-espidf/debug/advent-of-code-esp admin@192.168.11.90:~/
+          scp -4 -i ~/.ssh/aoc_flasher target/xtensa-esp32s3-espidf/release/advent-of-code-esp admin@192.168.11.90:~/
 
   flash:
     needs: build
@@ -72,14 +71,6 @@ jobs:
     runs-on: ubuntu-22.04
     container:
       image: ecw74/idf-rust-gitea:esp32s3_1.82.0.3
-
-    strategy:
-      matrix:
-        port:
-          - /dev/ttyACM0
-          - /dev/ttyACM1
-          - /dev/ttyACM2
-          - /dev/ttyACM3
 
     steps:
       - name: Flash Firmware
@@ -89,4 +80,8 @@ jobs:
           echo "${{ secrets.AOC_FLASHER_FLASH_SSH_KEY }}" > ~/.ssh/aoc_flasher
           chmod 400 ~/.ssh/aoc_flasher
           echo "aoc-flasher.walther.lan,192.168.11.90 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLOWjBTN5js7DHp09iQljZSR5ZNfHdfA/LtffjmAAPhznKvFfWgWmUaOFH8RkgdEVR5AwLxMgWR6f+UUFAgNXDs=" > ~/.ssh/known_hosts
-          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p ${{ matrix.port }} ~/advent-of-code-esp'
+          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM0 ~/advent-of-code-esp' &
+          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM1 ~/advent-of-code-esp' &
+          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM2 ~/advent-of-code-esp' &
+          ssh -4 -i ~/.ssh/aoc_flasher admin@192.168.11.90 '/home/admin/.cargo/bin/espflash flash -p /dev/ttyACM3 ~/advent-of-code-esp' &
+          wait

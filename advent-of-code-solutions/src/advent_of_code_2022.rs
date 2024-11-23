@@ -56,5 +56,12 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         Box::new(aoc2022::Day05::new(5, YEAR, "Supply Stacks", day_05_src)),
     );
 
+    // Add Day 6
+    let day_06_src: &'static [u8] = include_bytes!("solutions/aoc2022/day06_impl.rs");
+    solutions.insert(
+        6,
+        Box::new(aoc2022::Day06::new(6, YEAR, "Tuning Trouble", day_06_src)),
+    );
+
     Ok(())
 }
