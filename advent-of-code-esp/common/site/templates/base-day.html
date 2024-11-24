@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{{ title }} - Advent of Code{% endblock %}</title>
+
+    <link href="/static/prism.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/highcontrast.css" rel="stylesheet alternate" title="High Contrast" type="text/css"/>
+    <link href="/static/tree.css" rel="stylesheet" type="text/css"/>
+    <link href="/favicon.png" rel="shortcut icon"/>
+    <script src="/static/prism.js"></script>
+
+</head>
+<body>
+
+<header>
+    <div><h1 class="title-global"><a href="/">Advent of Code</a></h1>
+        <nav>
+            <ul>
+                <li><a href="/events">[Events]</a></li>
+                <li><a href="/{{ current_year }}">[Calendar]</a></li>
+                <li><a href="/about">[About]</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div>
+        <h1 class="title-event">
+            <span class="title-event-wrap">CY == (</span><a href="/{{ current_year }}">{{ current_year
+            }}</a><span class="title-event-wrap">)</span>
+        </h1>
+    </div>
+</header>
+
+<div id="sidebar">
+    <div id="sponsor">
+    <div class="tree">
+        <div class="image-container"><img src="/aoc-{{ current_year }}-{{ day }}.avif" alt="AOC {{ current_year }} {{ day }}"></div>
+    </div>
+        <br>
+        <div class="quiet">Build Date</div>
+        <div class="sponsor">
+            {{ crate::BUILD_DATE }}
+        </div>
+        <div class="quiet">Commit Hash</div>
+        <div class="sponsor">
+            <a href="https://github.com/ecw74/advent-of-code-rust/tree/{{ crate::COMMIT_HASH }}">{{ crate::COMMIT_HASH_SHORT }}</a>
+        </div>
+        <div class="quiet">Running on</div>
+        <div class="sponsor">
+            <a href="https://www.espressif.com/en/products/socs/esp32-s3">ESP32-S3</a>
+        </div>
+    </div>
+</div>
+
+<main>
+    {% block main %}<p>Placeholder content</p>{% endblock %}
+</main>
+</body>
+</html>

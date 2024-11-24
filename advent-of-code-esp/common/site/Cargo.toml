@@ -39,3 +39,5 @@ advent-of-code-solutions = { path = "../../../advent-of-code-solutions" }
 
 [build-dependencies]
 embuild = "0.32.0"
+image = { version = "0.25", features = ["avif"] }
+askama = { version ="0.12" }

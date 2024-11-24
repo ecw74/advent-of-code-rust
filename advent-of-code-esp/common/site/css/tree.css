@@ -4,6 +4,24 @@
     white-space: pre;
     font-size: 8pt;
 }
+
+.image-container {
+    display: flex;
+    justify-content: left;
+    height: 200px;
+    overflow: hidden;
+    border: 1px solid #dc46f3;
+    border-radius: 15px;
+    box-shadow: 0 0 2px #dc46f3, 0 0 5px #dc46f3;
+}
+
+.image-container img {
+    border-radius: 15px;
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
 .tree .red { color: red; }
 .tree .yellow {
     color: yellow;
