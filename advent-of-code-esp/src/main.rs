@@ -11,6 +11,8 @@ use site::site;
 use wifi::wifi;
 
 const STACK_SIZE: usize = 10240;
+const NUMBER_OF_YEARS: usize = 3;
+const NUMBER_OF_DAYS: usize = 25;
 
 #[toml_cfg::toml_config]
 pub struct Config {
@@ -41,6 +43,7 @@ fn main() -> Result<()> {
 
     let server_configuration = esp_idf_svc::http::server::Configuration {
         stack_size: STACK_SIZE,
+        max_uri_handlers: ((2 * NUMBER_OF_DAYS * NUMBER_OF_YEARS ) + NUMBER_OF_DAYS + 11),
         ..Default::default()
     };
     let mut server = EspHttpServer::new(&server_configuration)?;
