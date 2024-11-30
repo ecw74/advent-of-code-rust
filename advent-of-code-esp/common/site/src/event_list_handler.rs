@@ -15,6 +15,7 @@ use crate::multipart::parse_http_request;
 #[template(path = "day-list.html")]
 struct CalendarTemplate<'a> {
     current_year: u32,
+    image_name: String,
     aoc: &'a BTreeMap<u32, Box<dyn AoCSolution>>,
 }
 
@@ -23,6 +24,7 @@ struct CalendarTemplate<'a> {
 pub struct DayTemplate<'a> {
     current_year: u32,
     day: u32,
+    image_name: String,
     sol: &'a Box<dyn AoCSolution>,
     complete: i32,
     runtime: String,
@@ -43,6 +45,7 @@ pub fn load_and_serve_event(
     //**********************************************************************************************
     let events = CalendarTemplate {
         current_year: year,
+        image_name: format!("aoc-{}.avif", current_year),
         aoc: &aoc,
     };
     let events_string = events.render().unwrap().clone();
@@ -59,6 +62,7 @@ pub fn load_and_serve_event(
         let event = DayTemplate {
             current_year: year,
             day: *day,
+            image_name: format!("aoc-{}-{}.avif", year, day),
             sol: &sol,
             complete: 0,
             runtime: "".to_string(),
@@ -159,6 +163,7 @@ pub fn load_and_serve_event(
                 let event = DayTemplate {
                     current_year: year,
                     day: sol_clone.day(),
+                    image_name: format!("aoc-{}-{}.avif", year, sol_clone.day()),
                     sol: &sol_clone,
                     complete: complete,
                     runtime: format!("{:?}", duration),

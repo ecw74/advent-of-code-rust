@@ -76,9 +76,9 @@ fn process_images(assets_dir: &Path, build_dir: &Path) {
 
     // Process all image files in the assets directory
     for entry in fs::read_dir(assets_dir).expect("Failed to read assets directory") {
-        let year_dir = entry.expect("Failed to read directory entry").path();
-        if year_dir.is_dir() {
-            for img_entry in fs::read_dir(&year_dir).expect("Failed to read year directory") {
+        let asset_dir = entry.expect("Failed to read directory entry").path();
+        if asset_dir.is_dir() {
+            for img_entry in fs::read_dir(&asset_dir).expect("Failed to read year directory") {
                 let img_path = img_entry.expect("Failed to read image entry").path();
                 if img_path.extension().map_or(false, |ext| ext == "webp") {
                     println!("cargo:rerun-if-changed={}", img_path.display());

@@ -9,6 +9,7 @@ use esp_idf_svc::io::EspIOError;
 #[template(path = "about.html")]
 struct AboutTemplate<'a> {
     current_year: &'a u32,
+    image_name: String,
 }
 
 #[derive(Template)]
@@ -16,6 +17,7 @@ struct AboutTemplate<'a> {
 struct EventsTemplate<'a> {
     current_year: &'a u32,
     years: &'a Vec<u32>,
+    image_name: String,
 }
 
 pub fn load_and_serve_default_page(server: &mut EspHttpServer) -> Result<()> {
@@ -37,6 +39,7 @@ pub fn load_and_serve_about_page(server: &mut EspHttpServer) -> Result<(), EspIO
 
     let about = AboutTemplate {
         current_year: &current_year,
+        image_name: "aoc-logo.avif".to_string()
     };
     let about_string = about.render().unwrap().clone();
     server.fn_handler(
@@ -56,6 +59,7 @@ pub fn load_and_server_event_page(server: &mut EspHttpServer, years: &Vec<u32>) 
     let events = EventsTemplate {
         current_year: &current_year,
         years: &years,
+        image_name: "aoc-logo.avif".to_string()
     };
     let events_string = events.render().unwrap().clone();
     server.fn_handler(
