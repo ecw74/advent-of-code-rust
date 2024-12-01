@@ -24,5 +24,12 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         )),
     );
 
+    // Add Day 2
+    let day_02_src: &'static [u8] = include_bytes!("solutions/aoc2024/day02_impl.rs");
+    solutions.insert(
+        2,
+        Box::new(aoc2024::Day02::new(2, YEAR, "Red-Nosed Reports", day_02_src)),
+    );
+
     Ok(())
 }
