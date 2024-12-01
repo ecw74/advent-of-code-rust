@@ -1,5 +1,5 @@
-use super::day01::Day01;
 use std::collections::HashMap;
+use super::day01::Day01;
 
 // Implementation of methods for the Day01 struct
 impl Day01 {
@@ -33,13 +33,11 @@ impl Day01 {
         let (left, right) = Self::parse_to_vectors(_input);
 
         // Calculate the total distance by summing the absolute differences of paired elements.
-        let sum = left
-            .iter()
+        left.iter()
             .zip(right.iter()) // Pair elements from left and right vectors.
-            .map(|(l, r)| (l - r).abs() as i64) // Calculate absolute difference for each pair.
-            .sum::<i64>(); // Sum up all the distances.
-
-        sum.to_string() // Convert the sum to a string for the output.
+            .map(|(l, r)| (l - r).abs() as i32) // Calculate absolute difference for each pair.
+            .sum::<i32>()
+            .to_string()
     }
 
     /// Solves Part 2 of the puzzle.
@@ -47,7 +45,7 @@ impl Day01 {
     pub fn part_2(&self, _input: &str) -> String {
         let (left, right) = Self::parse_to_vectors(_input);
 
-        // Count occurrences in the right vector.
+        // Pre-calc occurrences in the right vector (this is for runtime optimization)
         let right_counts: HashMap<i32, i32> =
             right.into_iter().fold(HashMap::new(), |mut map, num| {
                 *map.entry(num).or_insert(0) += 1;
@@ -55,8 +53,8 @@ impl Day01 {
             });
 
         // Calculate the similarity score.
-        left.into_iter()
-            .map(|num| num * right_counts.get(&num).copied().unwrap_or(0))
+        left.iter()
+            .map(|num| *num * right_counts.get(num).copied().unwrap_or(0))
             .sum::<i32>()
             .to_string()
     }
