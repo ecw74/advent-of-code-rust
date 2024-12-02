@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use super::day01::Day01;
+use std::collections::HashMap;
 
 // Implementation of methods for the Day01 struct
 impl Day01 {
