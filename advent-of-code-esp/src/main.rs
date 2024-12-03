@@ -10,7 +10,7 @@ use esp_idf_svc::{eventloop::EspSystemEventLoop, hal::prelude::*, http::server::
 use site::site;
 use wifi::wifi;
 
-const STACK_SIZE: usize = 10240;
+const STACK_SIZE: usize = 20480;
 const NUMBER_OF_YEARS: usize = 3;
 const NUMBER_OF_DAYS: usize = 25;
 
