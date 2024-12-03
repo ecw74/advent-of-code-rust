@@ -29,7 +29,8 @@ name = "advent-of-code-solutions"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "maplit",
+ "lazy_static",
+ "regex",
 ]
 
 [[package]]
