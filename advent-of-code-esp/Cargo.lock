@@ -2155,6 +2155,7 @@ dependencies = [
  "log",
  "maplit",
  "parking_lot",
+ "serde_json",
 ]
 
 [[package]]
