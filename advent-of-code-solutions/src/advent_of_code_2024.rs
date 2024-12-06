@@ -57,5 +57,12 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         Box::new(aoc2024::Day05::new(5, YEAR, "Print Queue", day_05_src)),
     );
 
+    // Add Day 6
+    let day_06_src: &'static [u8] = include_bytes!("solutions/aoc2024/day06_impl.rs");
+    solutions.insert(
+        6,
+        Box::new(aoc2024::Day06::new(6, YEAR, "Guard Gallivant", day_06_src)),
+    );
+
     Ok(())
 }
