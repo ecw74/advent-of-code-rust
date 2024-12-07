@@ -26,10 +26,7 @@ pub struct DayTemplate<'a> {
     day: u32,
     image_name: String,
     sol: &'a Box<dyn AoCSolution>,
-    complete: i32,
-    runtime: String,
-    free_heap_size_before: u32,
-    free_heap_size_after: u32,
+    complete: i32
 }
 
 pub fn load_and_serve_event(
@@ -64,10 +61,7 @@ pub fn load_and_serve_event(
             day: *day,
             image_name: format!("aoc-{}-{}.avif", year, day),
             sol: &sol,
-            complete: 0,
-            runtime: "".to_string(),
-            free_heap_size_before: 0,
-            free_heap_size_after: 0,
+            complete: 0
         };
         let event_string = event.render().unwrap().clone();
         server.fn_handler(
@@ -136,9 +130,9 @@ pub fn load_and_serve_event(
                     match puzzle_answer.parse::<String>() {
                         Ok(int_value) => {
                             if int_value == sol_clone.part_2_final(&puzzle_upload) {
-                                complete = 2
+                                complete = 1
                             } else {
-                                complete = -2
+                                complete = -1
                             }
                         }
                         Err(_) => {
@@ -160,20 +154,20 @@ pub fn load_and_serve_event(
                     minimum_free_heap_size_after = esp_get_minimum_free_heap_size();
                 }
 
-                let event = DayTemplate {
-                    current_year: year,
-                    day: sol_clone.day(),
-                    image_name: format!("aoc-{}-{}.avif", year, sol_clone.day()),
-                    sol: &sol_clone,
-                    complete: complete,
-                    runtime: format!("{:?}", duration),
-                    free_heap_size_before: minimum_free_heap_size_before,
-                    free_heap_size_after: minimum_free_heap_size_after,
-                };
-                let event_string = event.render().unwrap().clone();
+                // JSON-Antwort erstellen
+                let json_response = serde_json::json!({
+                    "complete": complete,
+                    "runtime": format!("{:?}", duration),
+                    "free_heap_size_before": minimum_free_heap_size_before,
+                    "free_heap_size_after": minimum_free_heap_size_after,
+                });
 
+                // JSON serialisieren
+                let response_string = serde_json::to_string(&json_response).unwrap();
+
+                // Antwort senden
                 let mut response = request.into_ok_response()?;
-                response.write_all(event_string.as_bytes())?;
+                response.write_all(response_string.as_bytes())?;
                 Ok(())
             },
         )?;

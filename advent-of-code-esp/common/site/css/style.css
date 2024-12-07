@@ -674,3 +674,10 @@ form#settings input[type="checkbox"] ~ span {
 .sponsor {
     margin: 1em 0;
 }
+
+.countdown {
+    display: inline;
+    text-decoration: none;
+    color: #dc46f3;
+    text-shadow: 0 0 2px #dc46f3, 0 0 5px #dc46f3;
+}
