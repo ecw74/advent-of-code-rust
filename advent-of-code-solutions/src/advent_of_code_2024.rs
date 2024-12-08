@@ -71,5 +71,17 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         Box::new(aoc2024::Day07::new(7, YEAR, "Bridge Repair", day_07_src)),
     );
 
+    // Add Day 8
+    let day_08_src: &'static [u8] = include_bytes!("solutions/aoc2024/day08_impl.rs");
+    solutions.insert(
+        8,
+        Box::new(aoc2024::Day08::new(
+            8,
+            YEAR,
+            "Resonant Collinearity",
+            day_08_src,
+        )),
+    );
+
     Ok(())
 }
