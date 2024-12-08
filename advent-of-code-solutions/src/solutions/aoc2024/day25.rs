@@ -44,8 +44,10 @@ impl AoCSolution for Day25 {
     fn part_1_final(&self, input: &str) -> String {
         self.part_1(input)
     }
+    fn part_1_runtime(&self) -> usize { 10 }
 
     fn part_2_final(&self, input: &str) -> String {
         self.part_2(input)
     }
+    fn part_2_runtime(&self) -> usize { 10 }
 }

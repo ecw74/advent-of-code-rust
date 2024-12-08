@@ -15,14 +15,14 @@
     Link to Original AoC Puzzle : <a href="https://adventofcode.com/{{ current_year }}/day/{{ day }}"
                                      target="_blank">{{ sol.desc() }}</a>
     <h3>--- Part One ---</h3>
-    <form action="{{ day }}" enctype="multipart/form-data" id="puzzle-upload-form-1" method="post" data-countdown="120">
+    <form action="{{ day }}" enctype="multipart/form-data" id="puzzle-upload-form-1" method="post" data-countdown="{{ sol.part_1_runtime() }}">
         <input name="level" type="hidden" value="1"/>
         <p>Puzzle: <input hidden id="puzzle-upload-1" name="puzzle-upload-1" type="file"><label for="puzzle-upload-1">[Choose File]</label><span id="puzzle-chosen-1"> - No file chosen</span></p>
         <p>Answer: <input autocomplete="off" maxlength="128" name="puzzle-answer-1" type="text"/><input type="submit" value=" [Submit]"/></p>
         <div id="countdown-1" class="countdown">&nbsp;</div><div id="result-1"></div>
     </form>
     <h3>--- Part Two ---</h3>
-    <form action="{{ day }}" enctype="multipart/form-data" id="puzzle-upload-form-2" method="post" data-countdown="120">
+    <form action="{{ day }}" enctype="multipart/form-data" id="puzzle-upload-form-2" method="post" data-countdown="{{ sol.part_2_runtime() }}">
         <input name="level" type="hidden" value="2"/>
         <p>Puzzle: <input hidden id="puzzle-upload-2" name="puzzle-upload-2" type="file"><label for="puzzle-upload-2">[Choose File]</label><span id="puzzle-chosen-2"> - No file chosen</span></p>
         <p>Answer: <input autocomplete="off" maxlength="128" name="puzzle-answer-2" type="text"/><input type="submit" value=" [Submit]"/></p>
