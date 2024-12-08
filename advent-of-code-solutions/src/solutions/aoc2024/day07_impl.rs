@@ -32,15 +32,10 @@ impl Day07 {
     }
 
     /// Calculates the total calibration result by evaluating all possible operator combinations.
-    fn calculate_total_calibration<F>(
-        &self,
+    fn calculate_total_calibration(
         test_values: Vec<(u64, Vec<u16>)>, // Parsed test values as input.
         base: u32, // The number of operators (e.g., 2 for Part 1, 3 for Part 2).
-        mut operation: F, // A closure to define how each operator is applied.
-    ) -> String
-    where
-        F: FnMut(u32, u64, &mut u64), // Closure takes operator index, current number, and updates the test result.
-    {
+    ) -> String {
         let mut total_calibration_result = 0;
 
         // Iterate over each (target value, numbers list) tuple.
@@ -53,12 +48,20 @@ impl Day07 {
 
                 // Apply operators between numbers.
                 for n in numbers_iter {
-                    operation(i % base, *n as u64, &mut test_result); // Apply the current operator.
+                    match i % base {
+                        0 => test_result += *n as u64,
+                        1 => test_result *= *n as u64,
+                        3 => {
+                            test_result *= 10_u64.pow(n.ilog10() + 1);
+                            test_result += *n as u64;
+                        }
+                        _ => {}
+                    }
                     i /= base; // Move to the next operator combination.
                 }
 
                 // Check if the calculated result matches the target.
-                if test_result == result as u64 {
+                if test_result == result {
                     total_calibration_result += result; // Add the target value to the total if it matches.
                     break; // No need to try further combinations for this target.
                 }
@@ -70,29 +73,13 @@ impl Day07 {
     /// Part 1: Solve using only addition (+) and multiplication (*).
     pub fn part_1(&self, input: &str) -> String {
         let test_values = Self::parse_test_values(input).unwrap(); // Parse the input.
-        self.calculate_total_calibration(test_values, 2, |i, n, test_result| {
-            if i % 2 == 0 {
-                *test_result += n; // Apply addition for operator index 0.
-            } else {
-                *test_result *= n; // Apply multiplication for operator index 1.
-            }
-        })
+        Self::calculate_total_calibration(test_values, 2)
     }
 
     /// Part 2: Solve using addition (+), multiplication (*), and concatenation (||).
     pub fn part_2(&self, input: &str) -> String {
         let test_values = Self::parse_test_values(input).unwrap(); // Parse the input.
-        self.calculate_total_calibration(test_values, 3, |i, n, test_result| {
-            if i % 3 == 0 {
-                *test_result += n; // Apply addition for operator index 0.
-            } else if i % 3 == 1 {
-                *test_result *= n; // Apply multiplication for operator index 1.
-            } else {
-                // Apply concatenation for operator index 2.
-                *test_result *= 10_u64.pow(n.ilog10() + 1); // Shift the current result left.
-                *test_result += n; // Add the new number to complete the concatenation.
-            }
-        })
+        Self::calculate_total_calibration(test_values, 3)
     }
 }
 
