@@ -83,5 +83,9 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         )),
     );
 
+    // Add Day 9
+    let day_09_src: &'static [u8] = include_bytes!("solutions/aoc2024/day09_impl.rs");
+    solutions.insert(9, Box::new(aoc2024::Day09::new(9, YEAR, "Disk Fragmenter", day_09_src)));
+
     Ok(())
 }
