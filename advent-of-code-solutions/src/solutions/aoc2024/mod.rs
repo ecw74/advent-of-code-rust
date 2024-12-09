@@ -73,6 +73,3 @@ mod day24_impl;
 pub use day25::Day25;
 mod day25;
 mod day25_impl;
-pub use day26::Day26;
-mod day26;
-mod day26_impl;
