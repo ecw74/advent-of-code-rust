@@ -6,7 +6,7 @@ fn main() {
     if cfg!(feature = "codegen") {
         // Change the year and
         // run 'cargo build --features codegen'
-        let year = "2024";
+        let year = "0";
 
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
 
