@@ -59,11 +59,13 @@ impl Day09 {
 
         // Compact the filesystem by moving file blocks to the leftmost free space
         while front < back {
-            if !filesystem[front].0 { // If `front` points to a file block, move the pointer
+            if !filesystem[front].0 {
+                // If `front` points to a file block, move the pointer
                 front += 1;
                 continue;
             }
-            if filesystem[back].0 { // If `back` points to a free space, move the pointer
+            if filesystem[back].0 {
+                // If `back` points to a free space, move the pointer
                 back -= 1;
                 continue;
             }
@@ -78,7 +80,7 @@ impl Day09 {
             .enumerate() // Iterate over the blocks with their indices
             .map(|(index, &(empty, id))| {
                 match empty {
-                    true => 0, // Skip free space blocks
+                    true => 0,                    // Skip free space blocks
                     false => (index * id) as u64, // Multiply index by file ID
                 }
             })
@@ -95,9 +97,11 @@ impl Day09 {
         // Iterate over files in reverse order (starting with the largest ID)
         for file in files.iter_mut().rev() {
             for free in free_space.iter_mut() {
-                if free.1 < file.2 { // If the free space is too small, skip it
+                if free.1 < file.2 {
+                    // If the free space is too small, skip it
                     continue;
-                } else if file.1 < free.0 { // If the free space is after the file's position, stop searching
+                } else if file.1 < free.0 {
+                    // If the free space is after the file's position, stop searching
                     break;
                 }
                 free.1 -= file.2; // Reduce the free space by the file size

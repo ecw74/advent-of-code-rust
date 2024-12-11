@@ -1,5 +1,5 @@
-use std::collections::HashSet;
 use super::day10::Day10;
+use std::collections::HashSet;
 
 impl Day10 {
     // Parses the input string into a 2D grid of u8 values representing the map.
@@ -53,12 +53,12 @@ impl Day10 {
 
     // Recursive DFS helper function for exploring trails in both parts.
     fn explore_trail(
-        grid: &[Vec<u8>],            // The grid to traverse
-        row: u8,                     // Current row position
-        col: u8,                     // Current column position
+        grid: &[Vec<u8>],                // The grid to traverse
+        row: u8,                         // Current row position
+        col: u8,                         // Current column position
         visited: &mut HashSet<(u8, u8)>, // Set to track visited cells
-        score_accumulator: &mut usize,  // Counter to track scores or trail counts
-        count_score: bool,              // Flag: true for Part 1, false for Part 2
+        score_accumulator: &mut usize,   // Counter to track scores or trail counts
+        count_score: bool,               // Flag: true for Part 1, false for Part 2
     ) {
         if count_score {
             // Skip this cell if it has already been visited
@@ -78,11 +78,20 @@ impl Day10 {
         }
 
         // Recursively explore neighbors that satisfy the hiking trail rules
-        for (next_row, next_col) in Self::neighbors(row, col, grid.len() as u8, grid[0].len() as u8) {
+        for (next_row, next_col) in Self::neighbors(row, col, grid.len() as u8, grid[0].len() as u8)
+        {
             if !visited.contains(&(next_row, next_col))
-                && grid[next_row as usize][next_col as usize] == grid[row as usize][col as usize] + 1
+                && grid[next_row as usize][next_col as usize]
+                    == grid[row as usize][col as usize] + 1
             {
-                Self::explore_trail(grid, next_row, next_col, visited, score_accumulator, count_score);
+                Self::explore_trail(
+                    grid,
+                    next_row,
+                    next_col,
+                    visited,
+                    score_accumulator,
+                    count_score,
+                );
             }
         }
 
