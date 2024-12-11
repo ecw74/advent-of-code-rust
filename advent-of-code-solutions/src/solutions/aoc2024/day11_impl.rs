@@ -15,63 +15,84 @@ impl Day11 {
     }
 
     /// Simulates the transformation of stones for a specified number of iterations (blinks).
-    /// - `initial_stones` is the initial sequence of numbers on the stones.
-    /// - `blinks` is the number of transformation iterations to perform.
+    /// - `initial_stones`: The initial sequence of numbers on the stones.
+    /// - `blinks`: The number of transformation iterations to perform.
     /// Returns the total number of stones after all blinks.
-    fn simulate_blinks(initial_stones: Vec<u64>, blinks: usize) -> usize {
-        // HashMap to track the count of each unique stone number.
-        let mut stone_counts: HashMap<u64, usize> = HashMap::new();
+    fn simulate_blinks(initial_stones: &Vec<u64>, blinks: usize) -> u64 {
+        let mut stones = Vec::with_capacity(5000); // Tracks transformations between stone indices.
+        let mut indices = HashMap::with_capacity(5000); // Maps stone numbers to indices.
+        let mut todo = Vec::new(); // Holds new stone numbers to process in the current blink.
+        let mut current = Vec::new(); // Tracks the count of stones by index.
 
-        // Populate the initial counts for the given stones.
-        for &stone in &initial_stones {
-            *stone_counts.entry(stone).or_insert(0) += 1;
+        // Initialize stones from the input.
+        for &number in initial_stones {
+            if let Some(&index) = indices.get(&number) {
+                current[index] += 1; // Increment count if the stone number is already tracked.
+            } else {
+                indices.insert(number, indices.len()); // Assign a new index to the stone number.
+                todo.push(number); // Queue this stone number for processing.
+                current.push(1); // Initialize the count for this new stone.
+            }
         }
 
-        // Perform transformations for the specified number of blinks.
         for _ in 0..blinks {
-            // Temporary HashMap to hold the next generation of stones.
-            let mut next_stone_counts: HashMap<u64, usize> = HashMap::new();
+            let numbers = todo; // Take the stones queued for this blink.
+            todo = Vec::with_capacity(200); // Prepare a new queue for the next blink.
 
-            // Process each unique stone number and its count.
-            for (&stone, &count) in &stone_counts {
-                if stone == 0 {
-                    // Rule 1: Replace stones engraved with `0` with stones engraved `1`.
-                    *next_stone_counts.entry(1).or_insert(0) += count;
-                } else if stone.to_string().len() % 2 == 0 {
-                    // Rule 2: Split stones with an even number of digits.
-                    let digits = stone.to_string(); // Convert the number to a string to find its length.
-                    let mid = digits.len() / 2; // Find the midpoint for splitting.
-                    let left = digits[..mid].parse::<u64>().unwrap(); // Left part of the split.
-                    let right = digits[mid..].parse::<u64>().unwrap(); // Right part of the split.
-                    *next_stone_counts.entry(left).or_insert(0) += count; // Add the left half.
-                    *next_stone_counts.entry(right).or_insert(0) += count; // Add the right half.
+            // A closure to map a stone number to its index or queue it for future processing.
+            let mut index_of = |number| {
+                let size = indices.len();
+                *indices.entry(number).or_insert_with(|| {
+                    todo.push(number); // Queue the number for future processing.
+                    size // Assign a new index.
+                })
+            };
+
+            // Transform each stone number according to the rules.
+            for number in numbers {
+                let (first, second) = if number == 0 {
+                    (index_of(1), usize::MAX) // Rule 1: Replace 0 with 1.
                 } else {
-                    // Rule 3: Replace stones with their value multiplied by 2024.
-                    let new_stone = stone * 2024;
-                    *next_stone_counts.entry(new_stone).or_insert(0) += count;
-                }
+                    let digits = number.ilog10() + 1; // Count digits in the number.
+                    if digits % 2 == 0 {
+                        // Rule 2: Split even-digit numbers.
+                        let power = 10_u64.pow(digits / 2);
+                        (index_of(number / power), index_of(number % power))
+                    } else {
+                        // Rule 3: Multiply other numbers by 2024.
+                        (index_of(number * 2024), usize::MAX)
+                    }
+                };
+
+                stones.push((first, second)); // Record transformations for this stone.
             }
 
-            // Move to the next generation of stones.
-            stone_counts = next_stone_counts;
+            // Update stone counts based on transformations.
+            let mut next = vec![0; indices.len()];
+            for (&(first, second), amount) in stones.iter().zip(current) {
+                next[first] += amount; // Add the count to the first resulting stone.
+                if second != usize::MAX {
+                    next[second] += amount; // Add the count to the second resulting stone, if any.
+                }
+            }
+            current = next; // Move to the next iteration.
         }
 
-        // Sum the total count of all stones.
-        stone_counts.values().sum()
+        current.iter().sum() // Sum all stone counts to get the total.
     }
 
     /// Solves part 1 of the puzzle by simulating 25 blinks.
     /// Parses the input, simulates the transformations, and returns the result.
     pub fn part_1(&self, input: &str) -> String {
         let stones = Self::parse_numbers(input); // Parse the initial stones.
-        Self::simulate_blinks(stones, 25).to_string() // Simulate and convert the result to a string.
+        Self::simulate_blinks(&stones, 25).to_string() // Simulate and convert the result to a string.
     }
 
     /// Solves part 2 of the puzzle by simulating 75 blinks.
     /// Parses the input, simulates the transformations, and returns the result.
     pub fn part_2(&self, input: &str) -> String {
         let stones = Self::parse_numbers(input); // Parse the initial stones.
-        Self::simulate_blinks(stones, 75).to_string() // Simulate and convert the result to a string.
+        Self::simulate_blinks(&stones, 75).to_string() // Simulate and convert the result to a string.
     }
 }
 
