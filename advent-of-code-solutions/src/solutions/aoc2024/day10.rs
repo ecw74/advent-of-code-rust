@@ -45,13 +45,13 @@ impl AoCSolution for Day10 {
         self.part_1(input)
     }
     fn part_1_runtime(&self) -> usize {
-        30
+        1
     }
 
     fn part_2_final(&self, input: &str) -> String {
         self.part_2(input)
     }
     fn part_2_runtime(&self) -> usize {
-        30
+        1
     }
 }

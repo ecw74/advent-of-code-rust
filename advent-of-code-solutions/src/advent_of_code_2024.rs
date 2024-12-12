@@ -109,5 +109,12 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         )),
     );
 
+    // Add Day 12
+    let day_12_src: &'static [u8] = include_bytes!("solutions/aoc2024/day12_impl.rs");
+    solutions.insert(
+        12,
+        Box::new(aoc2024::Day12::new(12, YEAR, "Garden Groups", day_12_src)),
+    );
+
     Ok(())
 }
