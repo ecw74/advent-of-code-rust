@@ -128,5 +128,17 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         )),
     );
 
+    // Add Day 14
+    let day_14_src: &'static [u8] = include_bytes!("solutions/aoc2024/day14_impl.rs");
+    solutions.insert(
+        14,
+        Box::new(aoc2024::Day14::new(
+            14,
+            YEAR,
+            "Restroom Redoubt",
+            day_14_src,
+        )),
+    );
+
     Ok(())
 }
