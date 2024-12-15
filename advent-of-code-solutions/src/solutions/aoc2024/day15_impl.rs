@@ -1,198 +1,199 @@
 use super::day15::Day15;
+use std::collections::HashSet;
 
 impl Day15 {
-    fn parse_input_part_1(input: &str) -> (Vec<Vec<char>>, Vec<char>, (usize, usize)) {
+    /// Generalized input parsing for both parts
+    fn parse_input<F>(
+        input: &str,
+        transform_map: F, // Function to transform the map for Part 1 or Part 2
+    ) -> (Vec<Vec<char>>, Vec<(isize, isize)>, (isize, isize))
+    where
+        F: Fn(usize, usize, char, &mut (isize, isize)) -> Vec<char>,
+    {
         // Filter out empty lines and split into relevant sections
         let lines: Vec<&str> = input
             .lines()
-            .filter(|line| !line.trim().is_empty()) // Ignore empty lines
+            .filter(|line| !line.trim().is_empty())
             .collect();
 
-        // Parse the 2D map by finding lines that start and end with '#'
+        let mut start = (0, 0); // Starting position of the robot
+
+        // Parse the 2D map
         let map: Vec<Vec<char>> = lines
             .iter()
-            .take_while(|line| line.starts_with('#') && line.ends_with('#'))
-            .map(|line| line.chars().collect())
-            .collect();
-
-        // Parse the movement commands: Remaining lines after the map
-        let commands: Vec<char> = lines
-            .iter()
-            .skip_while(|line| line.starts_with('#') && line.ends_with('#'))
-            .flat_map(|line| line.chars().map(|ch| ch))
-            .collect();
-
-        // Find the position of '@' in the map
-        let mut start = (0, 0);
-        for (row, line) in map.iter().enumerate() {
-            if let Some(col) = line.iter().position(|&c| c == '@') {
-                start = (row, col);
-                break;
-            }
-        }
-
-        (map, commands, start)
-    }
-
-    fn parse_input_part_2(input: &str) -> (Vec<Vec<char>>, Vec<char>, (usize, usize)) {
-        // Filter out empty lines and split into relevant sections
-        let lines: Vec<&str> = input
-            .lines()
-            .filter(|line| !line.trim().is_empty()) // Ignore empty lines
-            .collect();
-
-        let mut start = (0, 0);
-
-        let map: Vec<Vec<char>> = lines
-            .iter()
-            .take_while(|line| line.starts_with('#') && line.ends_with('#'))
-            .enumerate() // Erhalte die Zeilenindizes für die Position von '@'
+            .take_while(|line| line.starts_with('#') && line.ends_with('#')) // Only lines of the map
+            .enumerate()
             .map(|(y, line)| {
                 line.chars()
-                    .enumerate() // Erhalte die Spaltenindizes für die Position von '@'
-                    .flat_map(|(x, ch)| match ch {
-                        '#' => vec!['#', '#'], // Wand wird horizontal verdoppelt
-                        '.' => vec!['.', '.'], // Leerraum wird horizontal verdoppelt
-                        'O' => vec!['[', ']'], // Hindernis wird horizontal verdoppelt
-                        '@' => {
-                            start = (x * 2, y); // Position von '@' speichern (x verdoppeln)
-                            vec!['@', '.'] // '@' wird zu '..' umgewandelt
-                        }
-                        _ => panic!("Unexpected character in map: {}", ch), // Fehler für unerwartete Zeichen
-                    })
-                    .collect() // Sammle die modifizierten Zeichen in eine Zeile
+                    .enumerate()
+                    .flat_map(|(x, ch)| transform_map(x, y, ch, &mut start))
+                    .collect()
             })
-            .collect(); // Sammle alle Zeilen in die 2D-Map
+            .collect();
 
-        // Parse the movement commands: Remaining lines after the map
-        let commands: Vec<char> = lines
+        // Parse the movement commands
+        let commands: Vec<(isize, isize)> = lines
             .iter()
-            .skip_while(|line| line.starts_with('#') && line.ends_with('#'))
-            .flat_map(|line| line.chars().map(|ch| ch))
+            .skip_while(|line| line.starts_with('#') && line.ends_with('#')) // Only movement commands
+            .flat_map(|line| {
+                line.chars().map(|ch| match ch {
+                    '<' => (-1, 0), // Left
+                    '^' => (0, -1), // Up
+                    '>' => (1, 0),  // Right
+                    'v' => (0, 1),  // Down
+                    _ => panic!("Unknown direction: {}", ch),
+                })
+            })
             .collect();
 
         (map, commands, start)
     }
 
-    fn move_robot(
-        start: (usize, usize),
-        map: &mut Vec<Vec<char>>,
-        moves: &Vec<char>,
-    ) {
-        let directions: Vec<(char, (isize, isize))> = vec![
-            ('^', (-1, 0)),  // Bewegung nach oben
-            ('v', (1, 0)),   // Bewegung nach unten
-            ('<', (0, -1)),  // Bewegung nach links
-            ('>', (0, 1)),   // Bewegung nach rechts
-        ];
+    /// Transformation function for Part 1 (single-width boxes)
+    fn transform_part_1(x: usize, y: usize, ch: char, start: &mut (isize, isize)) -> Vec<char> {
+        if ch == '@' {
+            *start = (x as isize, y as isize); // Record the robot's starting position
+        }
+        vec![ch] // Return the character unmodified
+    }
 
-        let rows = map.len();
-        let cols = map[0].len();
-        let mut robot_pos = start;
+    /// Transformation function for Part 2 (double-width boxes)
+    fn transform_part_2(x: usize, y: usize, ch: char, start: &mut (isize, isize)) -> Vec<char> {
+        match ch {
+            '#' => vec!['#', '#'], // Double walls
+            '.' => vec!['.', '.'], // Double empty spaces
+            'O' => vec!['[', ']'], // Boxes become wider (represented by brackets)
+            '@' => {
+                *start = ((x * 2) as isize, y as isize); // Adjust robot's starting position
+                vec!['@', '.'] // Robot expands to match the scaled map
+            }
+            _ => panic!("Unexpected character in map: {}", ch),
+        }
+    }
 
-        for &movement in moves {
-            if let Some(&(_, (dr, dc))) = directions.iter().find(|&&(dir, _)| dir == movement) {
-                let next_pos = (
-                    (robot_pos.0 as isize + dr) as usize,
-                    (robot_pos.1 as isize + dc) as usize,
-                );
+    /// Parse input for Part 1
+    pub fn parse_input_part_1(
+        input: &str,
+    ) -> (Vec<Vec<char>>, Vec<(isize, isize)>, (isize, isize)) {
+        Self::parse_input(input, Self::transform_part_1)
+    }
 
-                // Prüfen, ob die nächste Position innerhalb der Grenzen liegt
-                if next_pos.0 >= rows || next_pos.1 >= cols || map[next_pos.0][next_pos.1] == '#' {
-                    continue; // Ungültige Bewegung
+    /// Parse input for Part 2
+    pub fn parse_input_part_2(
+        input: &str,
+    ) -> (Vec<Vec<char>>, Vec<(isize, isize)>, (isize, isize)) {
+        Self::parse_input(input, Self::transform_part_2)
+    }
+
+    /// Solve Part 1
+    pub fn part_1(&self, input: &str) -> String {
+        let (mut map, commands, mut pos) = Self::parse_input_part_1(input);
+
+        for dir in commands {
+            let mut next = (pos.0 + dir.0, pos.1 + dir.1);
+
+            // Keep pushing boxes until a wall or free space is found
+            while map[next.1 as usize][next.0 as usize] == 'O' {
+                next = (next.0 + dir.0, next.1 + dir.1);
+            }
+
+            if map[next.1 as usize][next.0 as usize] == '.' {
+                // Move cells backwards to simulate the push
+                while next != pos {
+                    let prev = (next.0 - dir.0, next.1 - dir.1);
+                    map[next.1 as usize][next.0 as usize] = map[prev.1 as usize][prev.0 as usize];
+                    next = prev;
                 }
+                // Clear the robot's previous position
+                map[pos.1 as usize][pos.0 as usize] = '.';
+                pos = (pos.0 + dir.0, pos.1 + dir.1);
+            }
+        }
 
-                // Hindernis: Einzelzeichen 'O' verschieben
-                if map[next_pos.0][next_pos.1] == 'O' {
-                    if !Self::shift_obstacles(next_pos, (dr, dc), map) {
-                        continue; // Bewegung abbrechen, falls Hindernis nicht verschoben werden kann
+        // Sum the GPS coordinates of all boxes
+        map.iter()
+            .enumerate()
+            .map(|(row, line)| {
+                line.iter()
+                    .enumerate()
+                    .filter(|&(_, &c)| c == 'O') // Only box positions
+                    .map(move |(col, _)| 100u64 * row as u64 + col as u64) // Calculate GPS
+            })
+            .flatten()
+            .sum::<u64>()
+            .to_string()
+    }
+
+    /// Expand connected regions of wide boxes (Part 2)
+    fn expand_connected_regions(
+        map: &Vec<Vec<char>>,
+        pos: (isize, isize),
+        dir: (isize, isize),
+    ) -> Option<HashSet<(isize, isize)>> {
+        let mut boxes = Vec::from([pos]);
+        let mut all_boxes = HashSet::from([pos]);
+
+        while let Some(curr) = boxes.pop() {
+            let next = (curr.0 + dir.0, curr.1 + dir.1);
+            if all_boxes.contains(&next) {
+                continue;
+            }
+            let c = map[next.1 as usize][next.0 as usize];
+            match c {
+                '.' => {} // Found an empty edge
+                ']' | '[' => {
+                    // Add the box part to the frontier
+                    boxes.push(next);
+                    all_boxes.insert(next);
+                    if dir.1 != 0 {
+                        let other = if c == '[' {
+                            (next.0 + 1, next.1)
+                        } else {
+                            (next.0 - 1, next.1)
+                        };
+                        boxes.push(other);
+                        all_boxes.insert(other);
                     }
                 }
-
-                // Bewegung des Roboters
-                map[robot_pos.0][robot_pos.1] = '.';
-                map[next_pos.0][next_pos.1] = '@';
-                robot_pos = next_pos;
+                _ => return None,
             }
         }
+        Some(all_boxes)
     }
 
-
-    fn shift_obstacles(
-        pos: (usize, usize),
-        dir: (isize, isize),
-        map: &mut Vec<Vec<char>>,
-    ) -> bool {
-        let rows = map.len();
-        let cols = map[0].len();
-
-        let next_pos = (
-            (pos.0 as isize + dir.0) as usize,
-            (pos.1 as isize + dir.1) as usize,
-        );
-
-        // Prüfen, ob die nächste Position innerhalb der Grenzen liegt
-        if next_pos.0 >= rows || next_pos.1 >= cols || map[next_pos.0][next_pos.1] == '#' {
-            return false; // Hindernis kann nicht verschoben werden
-        }
-
-        match map[next_pos.0][next_pos.1] {
-            '.' => {
-                map[next_pos.0][next_pos.1] = map[pos.0][pos.1];
-                map[pos.0][pos.1] = '.';
-                true
-            }
-            'O' => {
-                if !Self::shift_obstacles(next_pos, dir, map) {
-                    return false;
-                }
-                map[next_pos.0][next_pos.1] = map[pos.0][pos.1];
-                map[pos.0][pos.1] = '.';
-                true
-            }
-            _ => false
-        }
-    }
-
-    pub fn part_1(&self, input: &str) -> String {
-        let (mut map, commands, start) = Self::parse_input_part_1(input);
-
-        Self::move_robot(start, &mut map, &commands);
-
-        map.iter().enumerate()
-            .map(|(row, line)| line.iter().enumerate()
-                .filter(|&(_, &c)| c == 'O')
-                .map(move |(col, _)| 100u64 * row as u64 + col as u64))
-            .flatten()
-            .sum::<u64>().to_string()
-    }
-
+    /// Solve Part 2
     pub fn part_2(&self, input: &str) -> String {
-        let (mut map, commands, start) = Self::parse_input_part_2(input);
+        let (mut map, commands, mut pos) = Self::parse_input_part_2(input);
+        let mut scratch_grid = map.clone();
 
-        println!("Map Input");
-        for r in map.iter_mut() {
-            println!("{}", r.iter().collect::<String>());
+        for dir in commands {
+            if let Some(boxes) = Self::expand_connected_regions(&map, pos, dir) {
+                // Backup and move all connected cells
+                for &cell in &boxes {
+                    scratch_grid[cell.1 as usize][cell.0 as usize] = map[cell.1 as usize][cell.0 as usize];
+                    map[cell.1 as usize][cell.0 as usize] = '.'; // Clear old positions
+                }
+                for &cell in &boxes {
+                    let new_c = (cell.0 + dir.0, cell.1 + dir.1);
+                    map[new_c.1 as usize][new_c.0 as usize] =
+                        scratch_grid[cell.1 as usize][cell.0 as usize];
+                }
+                pos = (pos.0 + dir.0, pos.1 + dir.1);
+            }
         }
 
-        println!("Robot Movements");
-        println!("{}", commands.iter().collect::<String>());
-
-        Self::move_robot(start, &mut map, &commands);
-
-        println!("Map Output");
-        for r in map.iter_mut() {
-            println!("{}", r.iter().collect::<String>());
-        }
-
-        "".to_string()
-
-        // map.iter().enumerate()
-        //     .map(|(row, line)| line.iter().enumerate()
-        //         .filter(|&(_, &c)| c == 'O')
-        //         .map(move |(col, _)| 100u64 * row as u64 + col as u64))
-        //     .flatten()
-        //     .sum::<u64>().to_string()
+        // Sum the GPS coordinates of all wide boxes
+        map.iter()
+            .enumerate()
+            .map(|(row, line)| {
+                line.iter()
+                    .enumerate()
+                    .filter(|&(_, &c)| c == '[') // Left edge of wide boxes
+                    .map(move |(col, _)| 100u64 * row as u64 + col as u64)
+            })
+            .flatten()
+            .sum::<u64>()
+            .to_string()
     }
 }
 
