@@ -109,26 +109,6 @@ impl Day15 {
                     }
                 }
 
-                // Hindernis: Paar '[' und ']' verschieben
-                if map[next_pos.0][next_pos.1] == '[' {
-                    if next_pos.1 < cols && map[next_pos.0][next_pos.1 + 1] == ']' {
-                        if !Self::shift_obstacle_pair(next_pos, (dr, dc), map) {
-                            continue; // Bewegung abbrechen, falls Paar nicht verschoben werden kann
-                        }
-                    }
-                }
-
-                // Hindernis: Falls Roboter ']' trifft
-                if map[next_pos.0][next_pos.1] == ']' {
-                    if next_pos.1 > 0 && map[next_pos.0][next_pos.1 - 1] == '[' {
-                        if !Self::shift_obstacle_pair((next_pos.0, next_pos.1 - 1), (dr, dc), map) {
-                            continue; // Bewegung abbrechen
-                        }
-                    } else {
-                        continue; // Ungültiges Zeichen, überspringen
-                    }
-                }
-
                 // Bewegung des Roboters
                 map[robot_pos.0][robot_pos.1] = '.';
                 map[next_pos.0][next_pos.1] = '@';
@@ -156,17 +136,22 @@ impl Day15 {
             return false; // Hindernis kann nicht verschoben werden
         }
 
-        // Wenn sich ein weiteres Hindernis vor dem aktuellen Hindernis befindet, verschiebe es rekursiv
-        if map[next_pos.0][next_pos.1] == 'O' {
-            if !Self::shift_obstacles(next_pos, dir, map) {
-                return false;
+        match map[next_pos.0][next_pos.1] {
+            '.' => {
+                map[next_pos.0][next_pos.1] = map[pos.0][pos.1];
+                map[pos.0][pos.1] = '.';
+                true
             }
+            'O' => {
+                if !Self::shift_obstacles(next_pos, dir, map) {
+                    return false;
+                }
+                map[next_pos.0][next_pos.1] = map[pos.0][pos.1];
+                map[pos.0][pos.1] = '.';
+                true
+            }
+            _ => false
         }
-
-        // Verschiebe das Hindernis
-        map[next_pos.0][next_pos.1] = 'O';
-        map[pos.0][pos.1] = '.';
-        true
     }
 
     pub fn part_1(&self, input: &str) -> String {
@@ -180,58 +165,6 @@ impl Day15 {
                 .map(move |(col, _)| 100u64 * row as u64 + col as u64))
             .flatten()
             .sum::<u64>().to_string()
-    }
-
-    /// Push an obstacle pair ('[' and ']') in the given direction using DFS.
-    /// If the pair can't be moved, return false.
-    /// Verschiebt ein Hindernispaar ('[' und ']') rekursiv.
-    /// Gibt `false` zurück, wenn das Hindernispaar nicht verschoben werden kann.
-    fn shift_obstacle_pair(
-        pos: (usize, usize),
-        dir: (isize, isize),
-        map: &mut Vec<Vec<char>>,
-    ) -> bool {
-        let rows = map.len();
-        let cols = map[0].len();
-
-        let next_pos = (
-            (pos.0 as isize + dir.0) as usize,
-            (pos.1 as isize + dir.1) as usize,
-        );
-        let next_pair_pos = (
-            next_pos.0,
-            (next_pos.1 as isize + 1) as usize,
-        );
-
-        // Prüfen, ob die aktuelle Position ein gültiges Paar ist
-        if pos.1 + 1 >= cols || map[pos.0][pos.1] != '[' || map[pos.0][pos.1 + 1] != ']' {
-            return false; // Kein gültiges Paar
-        }
-
-        // Prüfen, ob die Zielpositionen innerhalb der Karte liegen und frei sind
-        if next_pos.0 >= rows
-            || next_pos.1 >= cols
-            || next_pair_pos.1 >= cols
-            || map[next_pos.0][next_pos.1] != '.'
-            || map[next_pair_pos.0][next_pair_pos.1] != '.'
-        {
-            return false; // Zielpositionen blockiert oder außerhalb der Karte
-        }
-
-        // Falls ein weiteres Hindernispaar im Weg ist, verschiebe es rekursiv
-        if map[next_pos.0][next_pos.1] == '[' && map[next_pos.0][next_pair_pos.1] == ']' {
-            if !Self::shift_obstacle_pair(next_pos, dir, map) {
-                return false; // Nachfolgendes Hindernis konnte nicht verschoben werden
-            }
-        }
-
-        // Verschiebe das aktuelle Paar
-        map[next_pos.0][next_pos.1] = '[';
-        map[next_pair_pos.0][next_pair_pos.1] = ']';
-        map[pos.0][pos.1] = '.';
-        map[pos.0][pos.1 + 1] = '.';
-
-        true
     }
 
     pub fn part_2(&self, input: &str) -> String {
