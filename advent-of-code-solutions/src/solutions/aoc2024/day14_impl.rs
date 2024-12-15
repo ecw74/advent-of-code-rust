@@ -148,7 +148,7 @@ impl Day14 {
         // the robots on there starting position again
         for time in 1..lcm(field.0, field.1) + 1 {
             Self::update_positions(&mut robots, field, 1); // Incrementally update positions.
-            // I expect the Christmas tree is there when all robots in a unique position
+                                                           // I expect the Christmas tree is there when all robots in a unique position
             if Self::all_positions_unique(&mut robots) {
                 final_time = time; // Record the time when all positions are unique.
                 break;
