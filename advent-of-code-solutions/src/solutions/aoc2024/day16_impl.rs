@@ -21,8 +21,24 @@ mod test {
             desc: "".to_string(),
             code: "".to_string(),
         };
-        let input = r#""#;
-        assert_eq!(day16.part_1(input), "TBD"); // Asserts if the function output matches the expected result.
+        let input = r#"
+###############
+#.......#....E#
+#.#.###.#.###.#
+#.....#.#...#.#
+#.###.#####.#.#
+#.#.#.......#.#
+#.#.#####.###.#
+#...........#.#
+###.#.#####.#.#
+#...#.....#.#.#
+#.#.#.###.#.#.#
+#.....#...#.#.#
+#.###.#.#.#.#.#
+#S..#.....#...#
+###############
+        "#;
+        assert_eq!(day16.part_1(input), "7036"); // Asserts if the function output matches the expected result.
     }
 
     #[test]
