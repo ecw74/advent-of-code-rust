@@ -170,7 +170,8 @@ impl Day15 {
             if let Some(boxes) = Self::expand_connected_regions(&map, pos, dir) {
                 // Backup and move all connected cells
                 for &cell in &boxes {
-                    scratch_grid[cell.1 as usize][cell.0 as usize] = map[cell.1 as usize][cell.0 as usize];
+                    scratch_grid[cell.1 as usize][cell.0 as usize] =
+                        map[cell.1 as usize][cell.0 as usize];
                     map[cell.1 as usize][cell.0 as usize] = '.'; // Clear old positions
                 }
                 for &cell in &boxes {
