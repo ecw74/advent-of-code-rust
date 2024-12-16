@@ -59,7 +59,7 @@ fn main() -> std::io::Result<()> {
 
     #[cfg(feature = "dhat-heap")]
     let _profiler = dhat::Profiler::new_heap();
-    
+
     println!("Run AoC Solution for day {:02} {}", day, year);
 
     let start_part_1 = Instant::now();

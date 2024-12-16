@@ -10,6 +10,8 @@ anyhow = "1.0.77"
 regex = "1.11.1"
 lazy_static = "1.5.0"
 num = "0.4.3"
+pathfinding = "4.12.0"
+hashbrown="0.15.2"
 
 [features]
 codegen = []
