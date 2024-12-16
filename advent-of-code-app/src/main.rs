@@ -10,6 +10,10 @@ use advent_of_code_solutions::advent_of_code_2024;
 use advent_of_code_solutions::aoc_solution::AoCSolution;
 use clap::Parser;
 
+#[cfg(feature = "dhat-heap")]
+#[global_allocator]
+static ALLOC: dhat::Alloc = dhat::Alloc;
+
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Cli {
@@ -53,6 +57,9 @@ fn main() -> std::io::Result<()> {
 
     let aoc = solutions.get(&year).unwrap().get(&day).unwrap();
 
+    #[cfg(feature = "dhat-heap")]
+    let _profiler = dhat::Profiler::new_heap();
+    
     println!("Run AoC Solution for day {:02} {}", day, year);
 
     let start_part_1 = Instant::now();

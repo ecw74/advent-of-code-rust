@@ -8,3 +8,7 @@ edition = "2021"
 [dependencies]
 advent-of-code-solutions = { path = "../advent-of-code-solutions" }
 clap = { version = "4.4.12", features = ["derive"] }
+dhat="0.3.3"
+
+[features]
+dhat-heap = []    # if you are doing heap profiling
