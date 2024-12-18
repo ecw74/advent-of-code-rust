@@ -166,5 +166,12 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         )),
     );
 
+    // Add Day 18
+    let day_18_src: &'static [u8] = include_bytes!("solutions/aoc2024/day18_impl.rs");
+    solutions.insert(
+        18,
+        Box::new(aoc2024::Day18::new(18, YEAR, "RAM Run", day_18_src)),
+    );
+
     Ok(())
 }
