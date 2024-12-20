@@ -1,49 +1,16 @@
 use super::day20::Day20;
-use num::abs;
+use crate::utils::point::Point;
 use pathfinding::prelude::{bfs, Grid};
-use std::ops::{Add, Sub};
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-struct Point {
-    x: i16,
-    y: i16,
-}
-
-impl Point {
-    /// Manhattan distance between two points.
-    pub(crate) fn manhatten(&self, other: Point) -> i16 {
-        abs(self.x - other.x) + abs(self.y - other.y)
-    }
-}
-
-impl Add for Point {
-    type Output = Self;
-
-    fn add(self, other: Self) -> Self {
-        Self {
-            x: self.x + other.x,
-            y: self.y + other.y,
-        }
-    }
-}
-
-impl Sub for Point {
-    type Output = Self;
-
-    fn sub(self, other: Self) -> Self {
-        Self {
-            x: self.x - other.x,
-            y: self.y - other.y,
-        }
-    }
-}
 
 impl Day20 {
     /// Parses the map and identifies the grid, start (S), and end (E) points.
     fn parse_map(map: &str) -> (Grid, Point, Point) {
         let lines: Vec<&str> = map.lines().filter(|line| !line.trim().is_empty()).collect();
         let height = lines.len();
-        let width = lines.first().expect("Map must have at least one line").len();
+        let width = lines
+            .first()
+            .expect("Map must have at least one line")
+            .len();
 
         let mut grid = Grid::new(width, height);
         let mut start = Point { x: 0, y: 0 };
@@ -86,7 +53,7 @@ impl Day20 {
             for j in (i + 3)..path.len() {
                 let target = path[j];
                 let steps = j - i;
-                let dist = position.manhatten(target);
+                let dist = position.manhattan(target);
 
                 if condition(dist, steps, level) {
                     count += 1;
