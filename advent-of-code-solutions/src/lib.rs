@@ -7,6 +7,8 @@ pub mod aoc_solution;
 
 pub mod solutions;
 
+pub mod utils;
+
 mod advent_of_code_2022;
 
 pub fn advent_of_code_2022(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Result<()> {

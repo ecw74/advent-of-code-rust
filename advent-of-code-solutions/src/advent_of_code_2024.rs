@@ -180,5 +180,12 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         Box::new(aoc2024::Day19::new(19, YEAR, "Linen Layout", day_19_src)),
     );
 
+    // Add Day 20
+    let day_20_src: &'static [u8] = include_bytes!("solutions/aoc2024/day20_impl.rs");
+    solutions.insert(
+        20,
+        Box::new(aoc2024::Day20::new(20, YEAR, "Race Condition", day_20_src)),
+    );
+
     Ok(())
 }

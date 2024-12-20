@@ -1,62 +1,7 @@
 use super::day16::Day16;
+use crate::utils::point::Point;
 use hashbrown::HashSet;
-use num::abs;
 use pathfinding::prelude::astar_bag;
-use std::ops::{Add, Sub};
-
-/// Represents a point in the maze with x and y coordinates.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-struct Point {
-    x: i16,
-    y: i16,
-}
-
-impl Point {
-    /// Rotates the direction counter-clockwise.
-    fn rotate_ccw(&self) -> Point {
-        Point {
-            x: self.y,
-            y: -self.x,
-        }
-    }
-
-    /// Rotates the direction clockwise.
-    fn rotate_cw(&self) -> Point {
-        Point {
-            x: -self.y,
-            y: self.x,
-        }
-    }
-
-    /// Calculates the Manhattan distance to another point.
-    fn manhattan(&self, other: Point) -> i16 {
-        abs(self.x - other.x) + abs(self.y - other.y)
-    }
-}
-
-/// Supports addition of two points for movement calculations.
-impl Add for Point {
-    type Output = Point;
-
-    fn add(self, other: Point) -> Point {
-        Point {
-            x: self.x + other.x,
-            y: self.y + other.y,
-        }
-    }
-}
-
-/// Supports subtraction of two points for reverse movement.
-impl Sub for Point {
-    type Output = Point;
-
-    fn sub(self, other: Point) -> Point {
-        Point {
-            x: self.x - other.x,
-            y: self.y - other.y,
-        }
-    }
-}
 
 /// Represents the state of the Reindeer in the maze.
 #[derive(Clone, Eq, Hash, PartialEq, Debug)]
