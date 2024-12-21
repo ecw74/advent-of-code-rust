@@ -46,107 +46,137 @@ impl Day21 {
         }
     }
 
+    /// Generates the sequence of directional commands needed to move the robot arm
+    /// to the target position and press the button ('A').
+    ///
+    /// - `offset`: Difference between the current position and the target position.
+    /// - `horizontal_first`: Whether horizontal moves should be prioritized in the sequence.
+    fn build_move_sequence(offset: Point<i32>, horizontal_first: bool) -> Vec<char> {
+        let (dx, dy) = (offset.x, offset.y);
+
+        // Determine the number of vertical (up/down) and horizontal (left/right) steps required.
+        let vertical_steps = dx.abs() as usize;
+        let horizontal_steps = dy.abs() as usize;
+
+        // Determine the direction of vertical and horizontal moves.
+        let vertical_move = if dx > 0 { '^' } else { 'v' };
+        let horizontal_move = if dy > 0 { '<' } else { '>' };
+
+        // Create repeated move characters for the required steps.
+        let vertical_moves = vec![vertical_move; vertical_steps];
+        let horizontal_moves = vec![horizontal_move; horizontal_steps];
+
+        // Combine the moves in the specified order.
+        let mut moves: Vec<_> = if horizontal_first {
+            horizontal_moves
+                .into_iter()
+                .chain(vertical_moves.into_iter())
+                .collect()
+        } else {
+            vertical_moves
+                .into_iter()
+                .chain(horizontal_moves.into_iter())
+                .collect()
+        };
+
+        // Add 'A' to press the button at the target position.
+        moves.push('A');
+
+        moves
+    }
+
     /// Calculates the shortest sequence of moves required for a robot to press buttons
     /// on its directional keypad. Uses recursion to explore possible move sequences.
     ///
-    /// - `i`: Current position difference as a Point.
+    /// - `offset`: Difference between the current position and the target position.
     /// - `steps`: Remaining chain levels to traverse.
-    /// - `horizontal_first`: Whether to prioritize horizontal moves.
+    /// - `horizontal_first`: Whether horizontal moves should be prioritized.
     /// - `cache`: A memoization map to store previously calculated results.
     fn calculate_shortest_moves(
-        i: Point<i32>,
+        offset: Point<i32>,
         steps: usize,
         horizontal_first: bool,
         cache: &mut HashMap<(Point<i32>, usize, bool), u64>,
     ) -> u64 {
-        let key = (i, steps, horizontal_first); // Unique key for caching results.
-        let result;
-
-        // Compute absolute distances for x and y axes.
-        let abs = i.abs();
-        let ii = abs.x as usize;
-        let jj = abs.y as usize;
-
-        // Generate the sequence of moves based on the distances and direction prioritization.
-        let mut chunk = vec![if i.x > 0 { '^' } else { 'v' }; ii]; // Vertical moves.
-        chunk.extend(vec![if i.y > 0 { '<' } else { '>' }; jj]); // Horizontal moves.
-
-        if horizontal_first {
-            chunk.reverse(); // Reverse order if horizontal moves are prioritized.
+        // Check if the result is already cached.
+        let cache_key = (offset, steps, horizontal_first);
+        if let Some(&cached) = cache.get(&cache_key) {
+            return cached;
         }
 
-        chunk.push('A'); // Add the press action.
+        // Build the move sequence for the given offset.
+        let moves = Self::build_move_sequence(offset, horizontal_first);
 
-        // Return the cached result if available.
-        if let Some(&result) = cache.get(&key) {
+        // Base case: If no further steps remain, return the length of the move sequence.
+        if steps == 0 {
+            let result = moves.len() as u64;
+            cache.insert(cache_key, result);
             return result;
         }
 
-        // Base case: No more steps, return the length of the move sequence.
-        if steps == 0 {
-            result = chunk.len() as u64;
-        } else {
-            // Recursive case: Traverse the directional keypad and calculate distances.
-            let mut loc = Self::control_pad('A'); // Start at the 'A' button.
-            result = chunk
-                .into_iter()
-                .map(|c| {
-                    let n = Self::control_pad(c); // Target position for current move.
-                    let p = loc; // Previous position.
-                    loc = n; // Update the current position.
-                    let d = p.distance(n); // Compute the distance to the target.
+        // Recursive case: Traverse the directional keypad and calculate distances.
+        let mut total_cost = 0;
+        let mut current_pos = Self::control_pad('A'); // Start at the 'A' button.
 
-                    // Decide the next recursive step based on the positions.
-                    if d.x == 0 || d.y == 0 {
-                        Self::calculate_shortest_moves(d, steps - 1, false, cache)
-                    } else if n == Point::new(1, 0) && p.x == 0 {
-                        Self::calculate_shortest_moves(d, steps - 1, false, cache)
-                    } else if p == Point::new(1, 0) && n.x == 0 {
-                        Self::calculate_shortest_moves(d, steps - 1, true, cache)
-                    } else {
-                        cmp::min(
-                            Self::calculate_shortest_moves(d, steps - 1, false, cache),
-                            Self::calculate_shortest_moves(d, steps - 1, true, cache),
-                        )
-                    }
-                })
-                .sum::<u64>();
+        for c in moves {
+            let next_pos = Self::control_pad(c); // Target position for current move.
+            let prev_pos = current_pos; // Previous position.
+            current_pos = next_pos; // Update the current position.
+            let distance = prev_pos.distance(next_pos); // Compute the distance to the target.
+
+            // Decide the next recursive step based on the positions.
+            let step_result = if (distance.x == 0 || distance.y == 0)
+                || (next_pos == Point::new(1, 0) && prev_pos.x == 0)
+            {
+                Self::calculate_shortest_moves(distance, steps - 1, false, cache)
+            } else if prev_pos == Point::new(1, 0) && next_pos.x == 0 {
+                Self::calculate_shortest_moves(distance, steps - 1, true, cache)
+            } else {
+                cmp::min(
+                    Self::calculate_shortest_moves(distance, steps - 1, false, cache),
+                    Self::calculate_shortest_moves(distance, steps - 1, true, cache),
+                )
+            };
+
+            total_cost += step_result; // Accumulate the result.
         }
 
         // Store the result in the cache.
-        cache.insert(key, result);
-        result
+        cache.insert(cache_key, total_cost);
+        total_cost
     }
 
     /// Calculates the total sequence length needed to type a code on the numeric keypad.
     /// Traverses the entire chain of robots recursively, updating the position at each step.
     fn calculate_chain_traversal(sequence: &str, steps: usize) -> u64 {
-        let mut loc = Self::num_pad('A'); // Starting at 'A' on the numeric keypad.
         let mut cache = HashMap::new();
 
-        // Multiply the numeric part of the code by the sequence length.
-        sequence[0..3].parse::<u64>().unwrap()
-            * sequence
-                .chars()
-                .map(|c| {
-                    let n = Self::num_pad(c); // Target position for the current key.
-                    let p = loc; // Previous position.
-                    let d = loc.distance(n); // Calculate the distance.
-                    loc = n; // Update the current position.
+        let mut current_position = Self::num_pad('A'); // Starting at 'A' on the numeric keypad.
+        let mut total_cost = 0;
 
-                    // Decide the movement sequence and recursive traversal.
-                    if p.x == 3 && n.y == 0 {
-                        Self::calculate_shortest_moves(d, steps, false, &mut cache)
-                    } else if p.y == 0 && n.x == 3 {
-                        Self::calculate_shortest_moves(d, steps, true, &mut cache)
-                    } else {
-                        cmp::min(
-                            Self::calculate_shortest_moves(d, steps, true, &mut cache),
-                            Self::calculate_shortest_moves(d, steps, false, &mut cache),
-                        )
-                    }
-                })
-                .sum::<u64>() // Sum up the sequence lengths for the code.
+        // Iterate over each character in the sequence.
+        for c in sequence.chars() {
+            let next_pos = Self::num_pad(c); // Target position for the current key.
+            let prev_pos = current_position; // Previous position.
+            let distance = current_position.distance(next_pos); // Calculate the distance.
+            current_position = next_pos; // Update the current position.
+
+            // Decide the movement sequence and recursive traversal.
+            let steps = if prev_pos.x == 3 && next_pos.y == 0 {
+                Self::calculate_shortest_moves(distance, steps, false, &mut cache)
+            } else if prev_pos.y == 0 && next_pos.x == 3 {
+                Self::calculate_shortest_moves(distance, steps, true, &mut cache)
+            } else {
+                cmp::min(
+                    Self::calculate_shortest_moves(distance, steps, true, &mut cache),
+                    Self::calculate_shortest_moves(distance, steps, false, &mut cache),
+                )
+            };
+
+            total_cost += steps; // Add the steps to the total.
+        }
+
+        total_cost * sequence[0..3].parse::<u64>().unwrap()
     }
 
     /// Solution for Part 1: Calculates the sum of complexities for the five codes
