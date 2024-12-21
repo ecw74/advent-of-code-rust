@@ -4,7 +4,7 @@ use pathfinding::prelude::{bfs, Grid};
 
 impl Day20 {
     /// Parses the map and identifies the grid, start (S), and end (E) points.
-    fn parse_map(map: &str) -> (Grid, Point, Point) {
+    fn parse_map(map: &str) -> (Grid, Point<i16>, Point<i16>) {
         let lines: Vec<&str> = map.lines().filter(|line| !line.trim().is_empty()).collect();
         let height = lines.len();
         let width = lines
@@ -43,7 +43,7 @@ impl Day20 {
     }
 
     /// Finds valid cheats based on the condition function.
-    fn find_cheats<F>(path: &[Point], level: u32, condition: F) -> u32
+    fn find_cheats<F>(path: &[Point<i16>], level: u32, condition: F) -> u32
     where
         F: Fn(i16, usize, u32) -> bool,
     {
@@ -71,7 +71,7 @@ impl Day20 {
     {
         let (map, start, end) = Self::parse_map(input);
 
-        let neighbors = |&p: &Point| -> Vec<Point> {
+        let neighbors = |&p: &Point<i16>| -> Vec<Point<i16>> {
             map.neighbours((p.x as usize, p.y as usize))
                 .into_iter()
                 .map(|(x, y)| Point {
