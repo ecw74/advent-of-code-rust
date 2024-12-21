@@ -16,7 +16,7 @@ impl Day21 {
 
     /// Maps a key on the numeric keypad to its position as a Point (x, y).
     /// The numeric keypad is laid out as described in the puzzle, with specific coordinates.
-    fn numpad(key: char) -> Point<i32> {
+    fn num_pad(key: char) -> Point<i32> {
         match key {
             '7' => Point::new(0, 0),
             '8' => Point::new(0, 1),
@@ -35,7 +35,7 @@ impl Day21 {
 
     /// Maps a key on the directional keypad to its position as a Point (x, y).
     /// This represents the layout of the keypad controlling the robot arm.
-    fn arrowpad(key: char) -> Point<i32> {
+    fn control_pad(key: char) -> Point<i32> {
         match key {
             '^' => Point::new(0, 1),
             'A' => Point::new(0, 2),
@@ -53,13 +53,13 @@ impl Day21 {
     /// - `steps`: Remaining chain levels to traverse.
     /// - `h_first`: Whether to prioritize horizontal moves.
     /// - `cache`: A memoization map to store previously calculated results.
-    fn do_arrows(
+    fn calculate_shortest_moves(
         i: Point<i32>,
         steps: usize,
-        h_first: bool,
+        horizontal_first: bool,
         cache: &mut HashMap<(Point<i32>, usize, bool), u64>,
     ) -> u64 {
-        let key = (i, steps, h_first); // Unique key for caching results.
+        let key = (i, steps, horizontal_first); // Unique key for caching results.
         let result;
 
         // Compute absolute distances for x and y axes.
@@ -71,7 +71,7 @@ impl Day21 {
         let mut chunk = vec![if i.x > 0 { '^' } else { 'v' }; ii]; // Vertical moves.
         chunk.extend(vec![if i.y > 0 { '<' } else { '>' }; jj]); // Horizontal moves.
 
-        if h_first {
+        if horizontal_first {
             chunk.reverse(); // Reverse order if horizontal moves are prioritized.
         }
 
@@ -87,26 +87,26 @@ impl Day21 {
             result = chunk.len() as u64;
         } else {
             // Recursive case: Traverse the directional keypad and calculate distances.
-            let mut loc = Self::arrowpad('A'); // Start at the 'A' button.
+            let mut loc = Self::control_pad('A'); // Start at the 'A' button.
             result = chunk
                 .into_iter()
                 .map(|c| {
-                    let n = Self::arrowpad(c); // Target position for current move.
+                    let n = Self::control_pad(c); // Target position for current move.
                     let p = loc; // Previous position.
                     loc = n; // Update the current position.
                     let d = p.distance(n); // Compute the distance to the target.
 
                     // Decide the next recursive step based on the positions.
                     if d.x == 0 || d.y == 0 {
-                        Self::do_arrows(d, steps - 1, false, cache)
+                        Self::calculate_shortest_moves(d, steps - 1, false, cache)
                     } else if n == Point::new(1, 0) && p.x == 0 {
-                        Self::do_arrows(d, steps - 1, false, cache)
+                        Self::calculate_shortest_moves(d, steps - 1, false, cache)
                     } else if p == Point::new(1, 0) && n.x == 0 {
-                        Self::do_arrows(d, steps - 1, true, cache)
+                        Self::calculate_shortest_moves(d, steps - 1, true, cache)
                     } else {
                         cmp::min(
-                            Self::do_arrows(d, steps - 1, false, cache),
-                            Self::do_arrows(d, steps - 1, true, cache),
+                            Self::calculate_shortest_moves(d, steps - 1, false, cache),
+                            Self::calculate_shortest_moves(d, steps - 1, true, cache),
                         )
                     }
                 })
@@ -120,8 +120,8 @@ impl Day21 {
 
     /// Calculates the total sequence length needed to type a code on the numeric keypad.
     /// Traverses the entire chain of robots recursively, updating the position at each step.
-    fn enter_sequence(sequence: &str, steps: usize) -> u64 {
-        let mut loc = Self::numpad('A'); // Starting at 'A' on the numeric keypad.
+    fn calculate_chain_traversal(sequence: &str, steps: usize) -> u64 {
+        let mut loc = Self::num_pad('A'); // Starting at 'A' on the numeric keypad.
         let mut cache = HashMap::new();
 
         // Multiply the numeric part of the code by the sequence length.
@@ -129,20 +129,20 @@ impl Day21 {
             * sequence
                 .chars()
                 .map(|c| {
-                    let n = Self::numpad(c); // Target position for the current key.
+                    let n = Self::num_pad(c); // Target position for the current key.
                     let p = loc; // Previous position.
                     let d = loc.distance(n); // Calculate the distance.
                     loc = n; // Update the current position.
 
                     // Decide the movement sequence and recursive traversal.
                     if p.x == 3 && n.y == 0 {
-                        Self::do_arrows(d, steps, false, &mut cache)
+                        Self::calculate_shortest_moves(d, steps, false, &mut cache)
                     } else if p.y == 0 && n.x == 3 {
-                        Self::do_arrows(d, steps, true, &mut cache)
+                        Self::calculate_shortest_moves(d, steps, true, &mut cache)
                     } else {
                         cmp::min(
-                            Self::do_arrows(d, steps, true, &mut cache),
-                            Self::do_arrows(d, steps, false, &mut cache),
+                            Self::calculate_shortest_moves(d, steps, true, &mut cache),
+                            Self::calculate_shortest_moves(d, steps, false, &mut cache),
                         )
                     }
                 })
@@ -155,7 +155,7 @@ impl Day21 {
         let codes = Self::parse_codes(input);
         codes
             .iter()
-            .map(|code| Self::enter_sequence(code, 2))
+            .map(|code| Self::calculate_chain_traversal(code, 2))
             .sum::<u64>()
             .to_string()
     }
@@ -166,7 +166,7 @@ impl Day21 {
         let codes = Self::parse_codes(input);
         codes
             .iter()
-            .map(|code| Self::enter_sequence(code, 25))
+            .map(|code| Self::calculate_chain_traversal(code, 25))
             .sum::<u64>()
             .to_string()
     }
