@@ -51,7 +51,7 @@ impl Day21 {
     ///
     /// - `i`: Current position difference as a Point.
     /// - `steps`: Remaining chain levels to traverse.
-    /// - `h_first`: Whether to prioritize horizontal moves.
+    /// - `horizontal_first`: Whether to prioritize horizontal moves.
     /// - `cache`: A memoization map to store previously calculated results.
     fn calculate_shortest_moves(
         i: Point<i32>,
