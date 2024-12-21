@@ -6,14 +6,14 @@ use pathfinding::prelude::astar_bag;
 /// Represents the state of the Reindeer in the maze.
 #[derive(Clone, Eq, Hash, PartialEq, Debug)]
 pub struct Reindeer {
-    pos: Point, // Current position in the maze.
-    dir: Point, // Current direction (e.g., (1, 0) for East).
+    pos: Point<i16>, // Current position in the maze.
+    dir: Point<i16>, // Current direction (e.g., (1, 0) for East).
 }
 
 /// Contains the solution logic for Day 16.
 impl Day16 {
     /// Parses the maze input into a map grid, start position, and end position.
-    fn parse_map(input: &str) -> (Vec<Vec<char>>, Point, Point) {
+    fn parse_map(input: &str) -> (Vec<Vec<char>>, Point<i16>, Point<i16>) {
         let mut map = Vec::new();
         let mut start = Point { x: 0, y: 0 };
         let mut end = Point { x: 0, y: 0 };
@@ -106,7 +106,7 @@ impl Day16 {
 
     #[inline]
     /// Checks if a point is valid (within bounds and not a wall).
-    fn is_valid(p: &Point, map: &Vec<Vec<char>>) -> bool {
+    fn is_valid(p: &Point<i16>, map: &Vec<Vec<char>>) -> bool {
         (0..map[0].len()).contains(&(p.x as usize))
             && (0..map.len()).contains(&(p.y as usize))
             && map[p.y as usize][p.x as usize] != '#'
@@ -150,7 +150,7 @@ impl Day16 {
         .unwrap();
 
         // Collect all tiles from the optimal paths.
-        let all_points: HashSet<Point> = solution.fold(HashSet::default(), |mut set, rs| {
+        let all_points: HashSet<Point<i16>> = solution.fold(HashSet::default(), |mut set, rs| {
             set.extend(rs.iter().map(|r| r.pos));
             set
         });
