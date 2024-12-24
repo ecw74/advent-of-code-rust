@@ -213,5 +213,12 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         Box::new(aoc2024::Day23::new(23, YEAR, "LAN Party", day_23_src)),
     );
 
+    // Add Day 24
+    let day_24_src: &'static [u8] = include_bytes!("solutions/aoc2024/day24_impl.rs");
+    solutions.insert(
+        24,
+        Box::new(aoc2024::Day24::new(24, YEAR, "Crossed Wires", day_24_src)),
+    );
+
     Ok(())
 }
