@@ -220,5 +220,12 @@ pub fn advent_of_code(solutions: &mut BTreeMap<u32, Box<dyn AoCSolution>>) -> Re
         Box::new(aoc2024::Day24::new(24, YEAR, "Crossed Wires", day_24_src)),
     );
 
+    // Add Day 25
+    let day_25_src: &'static [u8] = include_bytes!("solutions/aoc2024/day25_impl.rs");
+    solutions.insert(
+        25,
+        Box::new(aoc2024::Day25::new(25, YEAR, "Code Chronicle", day_25_src)),
+    );
+
     Ok(())
 }
