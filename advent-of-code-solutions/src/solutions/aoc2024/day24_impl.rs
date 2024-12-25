@@ -92,7 +92,9 @@ impl Day24 {
 
         while let Some(gate) = pending_gates.pop_front() {
             // Check if both inputs for the gate are resolved
-            if let (Some(&val1), Some(&val2)) = (wire_values.get(gate.input1), wire_values.get(gate.input2)) {
+            if let (Some(&val1), Some(&val2)) =
+                (wire_values.get(gate.input1), wire_values.get(gate.input2))
+            {
                 // Perform the operation specified by the gate
                 let result = match gate.operator {
                     "AND" => val1 & val2,
@@ -189,7 +191,7 @@ impl Day24 {
             if g.operator == "XOR"
                 && !g.output.starts_with("z")
                 && !((g.input1.starts_with("x") && g.input2.starts_with("y"))
-                || (g.input1.starts_with("y") && g.input2.starts_with("x")))
+                    || (g.input1.starts_with("y") && g.input2.starts_with("x")))
             {
                 broken_nodes.insert(g.output);
             }
@@ -205,7 +207,8 @@ impl Day24 {
             if g.operator == "AND"
                 && !g.output.starts_with("z")
                 && edges[g.output].len() != 1
-                && !((g.input1 == "x00" && g.input2 == "y00") || (g.input1 == "y00" && g.input2 == "x00"))
+                && !((g.input1 == "x00" && g.input2 == "y00")
+                    || (g.input1 == "y00" && g.input2 == "x00"))
             {
                 broken_nodes.insert(g.output);
             }
@@ -224,7 +227,6 @@ impl Day24 {
         Self::identify_swapped_wires(logic_circuit)
     }
 }
-
 
 mod test {
     #[test]
